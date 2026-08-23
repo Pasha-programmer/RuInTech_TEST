@@ -1,4 +1,6 @@
-﻿using RuInTech_TEST.Contract.Interfaces.Assets;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RuInTech_TEST.Common.Extensions;
+using RuInTech_TEST.Contract.Interfaces.Assets;
 using RuInTech_TEST.Contract.Models.Assets;
 using System;
 using System.Collections.Generic;
@@ -6,22 +8,27 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace RuInTech_TEST
+namespace RuInTech_TEST.UI
 {
     public partial class AssetsForm : Form
     {
         private readonly IAssetsInfoGetter _assetsInfoGetter;
         private readonly IAssetsInfoEditor _assetsInfoEditor;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Активы, отображаемые в гриде в текущий момент (индекс строки == индекс в списке).
         /// </summary>
         private IReadOnlyList<Asset> _assets = Array.Empty<Asset>();
 
-        public AssetsForm(IAssetsInfoGetter assetsInfoGetter, IAssetsInfoEditor assetsInfoEditor)
+        public AssetsForm(
+            IAssetsInfoGetter assetsInfoGetter, 
+            IAssetsInfoEditor assetsInfoEditor,
+            IServiceProvider serviceProvider)
         {
             _assetsInfoGetter = assetsInfoGetter ?? throw new ArgumentNullException(nameof(assetsInfoGetter));
             _assetsInfoEditor = assetsInfoEditor ?? throw new ArgumentNullException(nameof(assetsInfoEditor));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             InitializeComponent();
             InitializeGridColumns();
@@ -71,9 +78,9 @@ namespace RuInTech_TEST
             var rows = _assets.Select(a => new AssetGridRow
             {
                 Id = a.Id ?? 0,
-                TypeName = AssetPresenter.GetTypeName(a),
+                TypeName = a.AssetKind.GetDescription(),
                 Name = a.Name,
-                Summary = AssetPresenter.GetSummary(a),
+                Summary = a.Summary,
             }).ToList();
 
             gridAssets.DataSource = rows;
@@ -97,8 +104,9 @@ namespace RuInTech_TEST
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            using (var editForm = new AssetEditForm(existingAsset: null))
+            using (var editForm = _serviceProvider.GetRequiredService<AssetEditForm>())
             {
+                editForm.Initialize(null);
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
                     _assetsInfoEditor.AddAsset(editForm.ResultAsset);
@@ -132,8 +140,9 @@ namespace RuInTech_TEST
                 return;
             }
 
-            using (var editForm = new AssetEditForm(existingAsset: selected))
+            using (var editForm = _serviceProvider.GetRequiredService<AssetEditForm>())
             {
+                editForm.Initialize(selected);
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
                     _assetsInfoEditor.UpdateAsset(editForm.ResultAsset);

@@ -24,5 +24,4 @@ namespace RuInTech_TEST.Common.Extensions
             return attribute?.Description ?? value.ToString();
         }
     }
-
 }

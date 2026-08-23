@@ -58,7 +58,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
         public string AdditionalInfo { get; set; }
 
         /// <inheritdoc/>
-        public override AssetKind DisplayTypeName => AssetKind.RawMaterial;
+        public override AssetKind AssetKind => AssetKind.RawMaterial;
 
         /// <inheritdoc/>
         public override string Summary => $"{Quantity.ToString(CultureInfo.InvariantCulture)} {UnitOfMeasure} ({Type}); " +

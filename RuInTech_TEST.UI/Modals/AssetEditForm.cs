@@ -10,15 +10,15 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace RuInTech_TEST
+namespace RuInTech_TEST.UI
 {
     /// <summary>
     /// Форма добавления / редактирования актива.
     /// Набор видимых полей зависит от выбранного типа актива.
     /// </summary>
-    public class AssetEditForm : Form
+    internal class AssetEditForm : Form
     {
-        private readonly Asset _existingAsset;
+        private Asset _existingAsset;
 
         private const int ContentWidth = 580;
         private const int LabelColumnWidth = 210;
@@ -95,27 +95,36 @@ namespace RuInTech_TEST
         /// </summary>
         public Asset ResultAsset { get; private set; }
 
-        /// <param name="existingAsset">Редактируемый актив, либо null - для создания нового.</param>
-        public AssetEditForm(Asset existingAsset)
+        public void Initialize(Asset asset)
         {
-            _existingAsset = existingAsset;
-
             BuildLayout();
             WireEvents();
 
-            if (_existingAsset != null)
+            if (asset != null)
             {
-                Text = "Редактирование актива";
-                PopulateFromExistingAsset(_existingAsset);
-                _cmbType.Enabled = false; // тип существующего актива не меняется
+                InitializeForEdit(asset);
             }
             else
             {
-                Text = "Новый актив";
-                _cmbType.SelectedIndex = (int)AssetKind.Cash;
+                InitializeForCreate();
             }
 
             UpdateVisiblePanels();
+        }
+
+        private void InitializeForEdit(Asset asset)
+        {
+            _existingAsset = asset ?? throw new ArgumentNullException(nameof(asset));
+            Text = "Редактирование актива";
+            PopulateFromExistingAsset(_existingAsset);
+            _cmbType.Enabled = false; // тип существующего актива не меняется
+        }
+
+        private void InitializeForCreate()
+        {
+            _existingAsset = null;
+            Text = "Новый актив";
+            _cmbType.SelectedIndex = (int)AssetKind.Cash;
         }
 
         private static NumericUpDown CreateMoneyNumericUpDown() => new NumericUpDown

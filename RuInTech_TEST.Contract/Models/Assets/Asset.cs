@@ -26,7 +26,7 @@ namespace RuInTech_TEST.Contract.Models.Assets
         /// <summary>
         /// Тип актива.
         /// </summary>
-        public abstract AssetKind DisplayTypeName { get; }
+        public abstract AssetKind AssetKind { get; }
 
         /// <summary>
         /// Краткая сводка по активу для колонки списка

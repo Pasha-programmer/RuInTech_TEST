@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RuInTech_TEST.Infrastructure;
+using RuInTech_TEST.UI;
 using System;
 using System.Windows.Forms;
 
@@ -16,27 +18,19 @@ namespace RuInTech_TEST
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (var serviceProvider = BuildServiceProvider())
-            {
-                var mainForm = serviceProvider.GetRequiredService<AssetsForm>();
-                Application.Run(mainForm);
-            }
+            var host = CreateHostBuilder().Build();
+
+            var mainForm = host.Services.GetRequiredService<AssetsForm>();
+            Application.Run(mainForm);
         }
 
-        /// <summary>
-        /// Собрать корневой DI-контейнер приложения (composition root).
-        /// </summary>
-        private static ServiceProvider BuildServiceProvider()
+        static IHostBuilder CreateHostBuilder()
         {
-            var services = new ServiceCollection();
-
-            // Регистрация сервисов слоя Infrastructure (доступ к активам).
-            services.AddAssetsInfrastructure();
-
-            // Регистрация форм - AssetsForm запрашивает зависимости через конструктор.
-            services.AddTransient<AssetsForm>();
-
-            return services.BuildServiceProvider();
+            return Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) => {
+                    services.AddAssetsInfrastructure();
+                    services.AddUIForms();
+                });
         }
     }
 }

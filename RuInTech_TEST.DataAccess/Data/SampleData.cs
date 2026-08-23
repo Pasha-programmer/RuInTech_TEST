@@ -7,6 +7,9 @@ using RuInTech_TEST.Contract.Models.Organization;
 using System;
 using System.Collections.Generic;
 
+//TODO: убрать ссылку из этого проекта на проект контракта, 
+//тут добавить свои модели данных
+//(для БД тут будут сущности, которые будут мапиться в dto в проекте инфрастуктуры)
 namespace RuInTech_TEST.DataAccess.Data
 {
     /// <summary>

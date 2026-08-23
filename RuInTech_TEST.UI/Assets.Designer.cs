@@ -1,4 +1,4 @@
-﻿namespace RuInTech_TEST
+﻿namespace RuInTech_TEST.UI
 {
     partial class AssetsForm
     {

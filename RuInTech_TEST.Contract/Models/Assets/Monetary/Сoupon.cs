@@ -23,7 +23,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
         public string Type { get; set; }
 
         /// <inheritdoc/>
-        public override AssetKind DisplayTypeName => AssetKind.Coupon;
+        public override AssetKind AssetKind => AssetKind.Coupon;
 
         /// <inheritdoc/>
         public override string Summary => $"{MonetaryValue}; вид: {Type}";

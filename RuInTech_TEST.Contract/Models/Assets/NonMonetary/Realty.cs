@@ -32,7 +32,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
         public string AdditionalInfo { get; set; }
 
         /// <inheritdoc/>
-        public override AssetKind DisplayTypeName => AssetKind.Realty;
+        public override AssetKind AssetKind => AssetKind.Realty;
 
         /// <inheritdoc/>
         public override string Summary => $"Баланс: {InitialBalanceCost} - {ResidualBalanceCost}; " +

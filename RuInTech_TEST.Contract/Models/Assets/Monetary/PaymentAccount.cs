@@ -25,7 +25,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
         public BankAccount BankAccount { get; set; }
 
         /// <inheritdoc/>
-        public override AssetKind DisplayTypeName => AssetKind.PaymentAccount;
+        public override AssetKind AssetKind => AssetKind.PaymentAccount;
 
         /// <inheritdoc/>
         public override string Summary => $"{MonetaryValue}; банк: {BankAccount.Bank.Name}; счёт № {BankAccount.PersonalAccount}";

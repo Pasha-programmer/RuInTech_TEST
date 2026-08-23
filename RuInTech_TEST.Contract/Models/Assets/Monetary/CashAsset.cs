@@ -16,7 +16,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
         { }
 
         /// <inheritdoc/>
-        public override AssetKind DisplayTypeName => AssetKind.Cash;
+        public override AssetKind AssetKind => AssetKind.Cash;
 
         /// <inheritdoc/>
         public override string Summary => $"{MonetaryValue}";
