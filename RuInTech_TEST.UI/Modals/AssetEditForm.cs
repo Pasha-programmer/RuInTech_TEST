@@ -442,7 +442,7 @@ namespace RuInTech_TEST.UI
                                 _txtBankName.Text.Trim())));
                     break;
 
-                case AssetKind.Coupon: 
+                case AssetKind.Coupon:
                     asset = new Сoupon(
                         id,
                         name,
@@ -450,7 +450,7 @@ namespace RuInTech_TEST.UI
                         _txtCouponType.Text.Trim());
                     break;
 
-                case AssetKind.Realty: 
+                case AssetKind.Realty:
                     asset = new Realty(
                         id,
                         name,
@@ -461,7 +461,7 @@ namespace RuInTech_TEST.UI
                         _txtRealtyAdditionalInfo.Text.Trim());
                     break;
 
-                case AssetKind.RawMaterial: 
+                case AssetKind.RawMaterial:
                     asset = new RawMaterial(
                         id,
                         name,

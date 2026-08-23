@@ -27,7 +27,8 @@ namespace RuInTech_TEST
         static IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
-                .ConfigureServices((context, services) => {
+                .ConfigureServices((context, services) =>
+                {
                     services.AddAssetsInfrastructure();
                     services.AddUIForms();
                 });

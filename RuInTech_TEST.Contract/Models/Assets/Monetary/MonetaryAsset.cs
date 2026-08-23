@@ -1,6 +1,4 @@
-﻿using RuInTech_TEST.Contract.Models.Enums;
-
-namespace RuInTech_TEST.Contract.Models.Assets.Monetary
+﻿namespace RuInTech_TEST.Contract.Models.Assets.Monetary
 {
     /// <summary>
     /// Денежный актив.
@@ -10,7 +8,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
         protected MonetaryAsset(
             long? id,
             string name,
-            MonetaryValue monetaryValue) 
+            MonetaryValue monetaryValue)
             : base(id, name)
         {
             MonetaryValue = monetaryValue;

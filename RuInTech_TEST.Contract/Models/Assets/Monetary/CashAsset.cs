@@ -1,5 +1,4 @@
 ﻿using RuInTech_TEST.Contract.Models.Enums;
-using System;
 
 namespace RuInTech_TEST.Contract.Models.Assets.Monetary
 {
@@ -11,7 +10,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
         public CashAsset(
             long? id,
             string name,
-            MonetaryValue monetaryValue) 
+            MonetaryValue monetaryValue)
             : base(id, name, monetaryValue)
         { }
 

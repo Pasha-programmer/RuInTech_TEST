@@ -22,7 +22,7 @@ namespace RuInTech_TEST.UI
         private IReadOnlyList<Asset> _assets = Array.Empty<Asset>();
 
         public AssetsForm(
-            IAssetsInfoGetter assetsInfoGetter, 
+            IAssetsInfoGetter assetsInfoGetter,
             IAssetsInfoEditor assetsInfoEditor,
             IServiceProvider serviceProvider)
         {

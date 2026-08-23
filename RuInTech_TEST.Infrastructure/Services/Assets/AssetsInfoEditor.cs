@@ -13,7 +13,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
         /// <inheritdoc/>
         public long? AddAsset(Asset asset)
         {
-            var maxId = SampleData.Assets.Count > 0 
+            var maxId = SampleData.Assets.Count > 0
                 ? SampleData.Assets.Select(a => a.Id.Value).Max()
                 : default;
             asset.Id = maxId + 1;

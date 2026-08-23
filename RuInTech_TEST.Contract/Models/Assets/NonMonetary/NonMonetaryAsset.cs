@@ -10,7 +10,7 @@
             string name,
             MonetaryValue initialBalanceCost,
             MonetaryValue residualBalanceCost,
-            MonetaryValue estimatedCost) 
+            MonetaryValue estimatedCost)
             : base(id, name)
         {
             InitialBalanceCost = initialBalanceCost;

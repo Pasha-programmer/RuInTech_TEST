@@ -16,11 +16,11 @@ namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
             MonetaryValue residualBalanceCost,
             MonetaryValue estimatedCost,
             string type,
-            string unitOfMeasure, 
-            double quantity, 
-            DateTimeOffset? 
-            productionDate, 
-            string additionalInfo = null) 
+            string unitOfMeasure,
+            double quantity,
+            DateTimeOffset?
+            productionDate,
+            string additionalInfo = null)
             : base(id, name, initialBalanceCost, residualBalanceCost, estimatedCost)
         {
             Type = type;
@@ -34,7 +34,7 @@ namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
         /// <summary>
         /// Вид сырья.
         /// </summary>
-        public string Type{ get; set; }
+        public string Type { get; set; }
 
         //TODO: привести в enum
         /// <summary>

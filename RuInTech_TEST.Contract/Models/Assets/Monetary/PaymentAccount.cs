@@ -1,6 +1,5 @@
 ﻿using RuInTech_TEST.Contract.Models.Enums;
 using RuInTech_TEST.Contract.Models.Organization;
-using System;
 
 namespace RuInTech_TEST.Contract.Models.Assets.Monetary
 {
@@ -12,8 +11,8 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
         public PaymentAccount(
             long? id,
             string name,
-            MonetaryValue monetaryValue, 
-            BankAccount bankAccount) 
+            MonetaryValue monetaryValue,
+            BankAccount bankAccount)
             : base(id, name, monetaryValue)
         {
             BankAccount = bankAccount;
