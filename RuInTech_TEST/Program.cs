@@ -18,10 +18,13 @@ namespace RuInTech_TEST
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var host = CreateHostBuilder().Build();
-
-            var mainForm = host.Services.GetRequiredService<AssetsForm>();
-            Application.Run(mainForm);
+            using (var host = CreateHostBuilder().Build())
+            {
+                using (var mainForm = host.Services.GetRequiredService<AssetsForm>())
+                {
+                    Application.Run(mainForm);
+                }
+            }
         }
 
         static IHostBuilder CreateHostBuilder()
