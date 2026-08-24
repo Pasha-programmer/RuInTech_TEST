@@ -337,6 +337,11 @@ namespace RuInTech_TEST.UI
         {
             var kind = GetSelectedKindByIndex(_cmbType.SelectedIndex);
 
+            SuspendLayout();
+
+            _scrollPanel.SuspendLayout();
+            _contentPanel.SuspendLayout();
+
             _grpMonetary.Visible = new[] { AssetKind.Cash, AssetKind.PaymentAccount, AssetKind.Coupon }.Contains(kind);
             _grpPaymentAccount.Visible = kind == AssetKind.PaymentAccount;
             _grpCoupon.Visible = kind == AssetKind.Coupon;
@@ -344,6 +349,11 @@ namespace RuInTech_TEST.UI
             _grpNonMonetary.Visible = new[] { AssetKind.Realty, AssetKind.RawMaterial }.Contains(kind);
             _grpRealty.Visible = kind == AssetKind.Realty;
             _grpRawMaterial.Visible = kind == AssetKind.RawMaterial;
+
+            _contentPanel.ResumeLayout(true);
+            _scrollPanel.ResumeLayout(true);
+
+            ResumeLayout(true);
         }
 
         private void PopulateFromExistingAsset(Asset asset)
