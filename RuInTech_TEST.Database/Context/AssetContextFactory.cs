@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.Entity.Infrastructure;
 
 namespace RuInTech_TEST.Database.Context
@@ -9,6 +10,11 @@ namespace RuInTech_TEST.Database.Context
     public class AssetContextFactory : IDbContextFactory<AssetContext>
     {
         private readonly string _nameOrConnectionString;
+
+        public AssetContextFactory()
+        {
+            _nameOrConnectionString = GetConnectionStringFromConfig();
+        }
 
         public AssetContextFactory(string nameOrConnectionString)
         {
@@ -27,5 +33,21 @@ namespace RuInTech_TEST.Database.Context
 
             return new AssetContext(nameOrConnectionString);
         }
+
+        private string GetConnectionStringFromConfig()
+        {
+            // Проверяем app.config/web.config
+            var connectionString = ConfigurationManager
+                .ConnectionStrings["Assets"]?.ConnectionString;
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException(
+                    "Connection string 'Assets' not found in configuration file.");
+            }
+
+            return connectionString;
+        }
+
     }
 }

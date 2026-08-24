@@ -10,11 +10,11 @@ namespace RuInTech_TEST.Database.Entities.Assets.Monetary
         /// <summary>
         /// Стоимость.
         /// </summary>
-        public decimal Cost { get; }
+        public decimal Cost { get; set; }
 
         /// <summary>
         /// Валюта.
         /// </summary>
-        public CurrencyType Currency { get; }
+        public CurrencyType Currency { get; set; }
     }
 }

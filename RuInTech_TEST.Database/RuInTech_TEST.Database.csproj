@@ -110,13 +110,29 @@
     <Compile Include="Entities\Enums\AssetKind.cs" />
     <Compile Include="Entities\Enums\Currency.cs" />
     <Compile Include="Entities\Assets\Monetary\MonetaryAsset.cs" />
+    <Compile Include="Migrations\202608242240289_Init.cs" />
+    <Compile Include="Migrations\202608242240289_Init.Designer.cs">
+      <DependentUpon>202608242240289_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608242249394_CreateRawMaterialKindTable.cs" />
+    <Compile Include="Migrations\202608242249394_CreateRawMaterialKindTable.Designer.cs">
+      <DependentUpon>202608242249394_CreateRawMaterialKindTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202608242240289_Init.resx">
+      <DependentUpon>202608242240289_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608242249394_CreateRawMaterialKindTable.resx">
+      <DependentUpon>202608242249394_CreateRawMaterialKindTable.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -4,6 +4,7 @@ using RuInTech_TEST.Database.Entities.Assets.Monetary;
 using RuInTech_TEST.Database.Entities.Assets.NonMonetary;
 using RuInTech_TEST.Database.Entities.Enums;
 using RuInTech_TEST.Database.Entities.Organization;
+using RuInTech_TEST.Database.Entities.RawMaterial;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
@@ -33,6 +34,8 @@ namespace RuInTech_TEST.Database
 
         public DbSet<BankAccount> BankAccounts { get; set; }
 
+        public DbSet<RawMaterialKind> RawMaterialKinds { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -48,6 +51,7 @@ namespace RuInTech_TEST.Database
             OnRealtyCreating(modelBuilder);
             OnBankCreating(modelBuilder);
             OnBankAccountCreating(modelBuilder);
+            OnRawMaterialKindCreating(modelBuilder);
         }
 
         private void OnEnumsCreating(DbModelBuilder modelBuilder)
@@ -75,10 +79,6 @@ namespace RuInTech_TEST.Database
             assetEntity.Property(e => e.AssetKind)
                 .HasColumnName("asset_kind")
                 .IsRequired();
-
-            // Настройка наследования (TPT - Table per Type)
-            assetEntity.Map<MonetaryAsset>(m => m.ToTable("monetary_assets"));
-            assetEntity.Map<NonMonetaryAsset>(m => m.ToTable("non_monetary_assets"));
         }
 
         private void OnMonetaryAssetCreating(DbModelBuilder modelBuilder)
@@ -93,10 +93,6 @@ namespace RuInTech_TEST.Database
             monetaryAssetEntity.Property(e => e.Currency)
                 .HasColumnName("currency")
                 .IsRequired();
-
-            // Настройка наследования (TPT - Table per Type)
-            monetaryAssetEntity.Map<PaymentAccount>(m => m.ToTable("payment_account_assets"));
-            monetaryAssetEntity.Map<Сoupon>(m => m.ToTable("coupon_assets"));
         }
 
         private void OnNonMonetaryAssetCreating(DbModelBuilder modelBuilder)
@@ -127,10 +123,6 @@ namespace RuInTech_TEST.Database
             nonMonetaryAssetEntity.Property(e => e.EstimatedCostCurrency)
                 .HasColumnName("estimated_cost_currency")
                 .IsRequired();
-
-            // Настройка наследования (TPT - Table per Type)
-            nonMonetaryAssetEntity.Map<RawMaterial>(m => m.ToTable("raw_material_assets"));
-            nonMonetaryAssetEntity.Map<Realty>(m => m.ToTable("realty_assets"));
         }
 
         private void OnPaymentAccountCreating(DbModelBuilder modelBuilder)
@@ -225,6 +217,25 @@ namespace RuInTech_TEST.Database
             bankAccountEntity.Property(e => e.BankId)
                 .HasColumnName("bank_id")
                 .IsRequired();
+        }
+
+        private void OnRawMaterialKindCreating(DbModelBuilder modelBuilder)
+        {
+            var entity = modelBuilder.Entity<RawMaterialKind>();
+            entity.ToTable("raw_material_kinds")
+                .HasKey(e => e.Id, o => o.HasName("pk_raw_material_kinds_id"));
+
+            entity.Property(e => e.Id)
+                .HasColumnName("id")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            entity.Property(e => e.Name)
+                .HasColumnName("name")
+                .IsRequired();
+
+            entity.Property(e => e.Description)
+                .HasColumnName("description")
+                .IsOptional();
         }
     }
 }
