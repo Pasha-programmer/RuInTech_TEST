@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RuInTech_TEST.Contract\RuInTech_TEST.Contract.csproj" />
     <ProjectReference Include="..\RuInTech_TEST.DataAccess\RuInTech_TEST.DataAccess.csproj" />
+    <ProjectReference Include="..\RuInTech_TEST.Database\RuInTech_TEST.Database.csproj" />
   </ItemGroup>
 
 </Project>

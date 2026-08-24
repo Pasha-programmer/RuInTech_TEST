@@ -2,6 +2,7 @@
   <Project Path="RuInTech_TEST.Common/RuInTech_TEST.Common.csproj" Id="8f1dc693-3aac-4658-80e7-15a6fb545cd5" />
   <Project Path="RuInTech_TEST.Contract/RuInTech_TEST.Contract.csproj" />
   <Project Path="RuInTech_TEST.DataAccess/RuInTech_TEST.DataAccess.csproj" />
+  <Project Path="RuInTech_TEST.Database/RuInTech_TEST.Database.csproj" Id="8284cabf-11cd-41fe-935a-4d9fd057be00" />
   <Project Path="RuInTech_TEST.Infrastructure/RuInTech_TEST.Infrastructure.csproj" />
   <Project Path="RuInTech_TEST.UI/RuInTech_TEST.UI.csproj" Id="b9b9192d-02be-49f1-bf04-f1ab98dcd2fb" />
   <Project Path="RuInTech_TEST/RuInTech_TEST.Application.csproj" Id="b3895439-db89-4539-8287-c241d490c556" />
