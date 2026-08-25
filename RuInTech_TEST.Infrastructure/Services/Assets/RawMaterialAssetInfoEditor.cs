@@ -1,4 +1,5 @@
 ﻿using RuInTech_TEST.Contract.Interfaces.Assets;
+using RuInTech_TEST.Contract.Models.Assets;
 using RuInTech_TEST.Contract.Models.Assets.NonMonetary;
 using RuInTech_TEST.Database;
 using System.Data.Entity;
@@ -10,7 +11,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
     /// <summary>
     /// Реализация контракта <see cref="IAssetsInfoEditor"/> для платежного счета.
     /// </summary>
-    internal class RawMaterialAssetInfoEditor : IAssetsInfoEditor<RawMaterial>
+    internal class RawMaterialAssetInfoEditor : IAssetsInfoEditorGeneric<RawMaterial>
     {
         private readonly IDbContextFactory<AssetContext> _dbContextFactory;
 
@@ -49,6 +50,11 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                 }
                 return entity.Id;
             }
+        }
+
+        public async Task<long?> AddAsset(Asset asset)
+        {
+            return await AddAsset((RawMaterial)asset);
         }
 
         /// <inheritdoc/>
@@ -109,6 +115,11 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
 
                 return await context.SaveChangesAsync() > 0;
             }
+        }
+
+        public async Task<bool> UpdateAsset(Asset asset)
+        {
+            return await UpdateAsset((RawMaterial)asset);
         }
     }
 }

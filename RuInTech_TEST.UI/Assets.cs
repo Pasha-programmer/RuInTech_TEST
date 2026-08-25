@@ -111,18 +111,20 @@ namespace RuInTech_TEST.UI
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
                     var editor = GetEditor(editForm.ResultAsset);
-                    if (editor != null)
+                    if (editor == null)
                     {
-                        var result = await editor.AddAsset(editForm.ResultAsset);
-                        if (result.HasValue)
-                        {
-                            await ReloadAssets();
-                        }
-                        else
-                        {
-                            MessageBox.Show(this, "Не удалось добавить актив.", "Ошибка",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        return;
+                    }
+
+                    var result = await editor.AddAsset(editForm.ResultAsset);
+                    if (result.HasValue)
+                    {
+                        await ReloadAssets();
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Не удалось добавить актив.", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -196,18 +198,20 @@ namespace RuInTech_TEST.UI
             if (confirm == DialogResult.Yes && selected.Id.HasValue)
             {
                 var editor = GetEditor(selected);
-                if (editor != null)
+                if (editor == null)
                 {
-                    var result = await editor.DeleteAsset(selected.Id.Value);
-                    if (result)
-                    {
-                        await ReloadAssets();
-                    }
-                    else
-                    {
-                        MessageBox.Show(this, "Не удалось удалить актив.", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    return;
+                }
+
+                var result = await editor.DeleteAsset(selected.Id.Value);
+                if (result)
+                {
+                    await ReloadAssets();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Не удалось удалить актив.", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -220,7 +224,7 @@ namespace RuInTech_TEST.UI
         /// <summary>
         /// Получить редактор для конкретного типа актива.
         /// </summary>
-        private IAssetsInfoEditor<Asset> GetEditor(Asset asset)
+        private IAssetsInfoEditor GetEditor(Asset asset)
         {
             if (asset == null)
                 return null;
@@ -228,30 +232,26 @@ namespace RuInTech_TEST.UI
             // Получаем редактор по типу актива
             try
             {
-                IAssetsInfoEditor<Asset> editor = null;
-                switch (asset.AssetKind)
-                {
-                    case AssetKind.Cash:
-                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<CashAsset>>(AssetKind.Cash);
-                        break;
-                    case AssetKind.PaymentAccount:
-                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<PaymentAccount>>(AssetKind.PaymentAccount);
-                        break;
-                    case AssetKind.Coupon:
-                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<Сoupon>>(AssetKind.Coupon);
-                        break;
-                    case AssetKind.RawMaterial:
-                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<RawMaterial>>(AssetKind.RawMaterial);
-                        break;
-                    case AssetKind.Realty:
-                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<Realty>>(AssetKind.Realty);
-                        break;
-                    default:
-                        throw new NotSupportedException($"Тип актива {asset.AssetKind} не поддерживается.");
-                }
+                var assetType = asset.GetType();
+                var editorType = typeof(IAssetsInfoEditorGeneric<>).MakeGenericType(assetType);
+                var editor = _serviceProvider.GetRequiredService(editorType);
+                return editor as IAssetsInfoEditor;
 
-                // Приводим к общему типу
-                return editor;
+                //switch (asset.AssetKind)
+                //{
+                //    case AssetKind.Cash:
+                //        return (IAssetsInfoEditorGeneric<Asset>)_serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<CashAsset>>();
+                //    case AssetKind.PaymentAccount:
+                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<PaymentAccount>>() as IAssetsInfoEditorGeneric<Asset>;
+                //    case AssetKind.Coupon:
+                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<Сoupon>>() as IAssetsInfoEditorGeneric<Asset>;
+                //    case AssetKind.RawMaterial:
+                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<RawMaterial>>() as IAssetsInfoEditorGeneric<Asset>;
+                //    case AssetKind.Realty:
+                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<Realty>>() as IAssetsInfoEditorGeneric<Asset>;
+                //    default:
+                //        throw new NotSupportedException($"Тип актива {asset.AssetKind} не поддерживается.");
+                //}
             }
             catch (Exception ex)
             {

@@ -22,11 +22,11 @@ namespace RuInTech_TEST.Infrastructure
             services.AddAssetsDatebase();
 
             services.AddSingleton<IAssetsInfoGetter, AssetsInfoGetter>();
-            services.AddKeyedSingleton<IAssetsInfoEditor<CashAsset>, CashAssetInfoEditor>(AssetKind.Cash);
-            services.AddKeyedSingleton<IAssetsInfoEditor<PaymentAccount>, PaymentAccountAssetInfoEditor>(AssetKind.PaymentAccount);
-            services.AddKeyedSingleton<IAssetsInfoEditor<Сoupon>, СouponAssetInfoEditor>(AssetKind.Coupon);
-            services.AddKeyedSingleton<IAssetsInfoEditor<RawMaterial>, RawMaterialAssetInfoEditor>(AssetKind.RawMaterial);
-            services.AddKeyedSingleton<IAssetsInfoEditor<Realty>, RealtyAssetInfoEditor>(AssetKind.Realty);
+            services.AddSingleton<IAssetsInfoEditorGeneric<CashAsset>, CashAssetInfoEditor>();
+            services.AddSingleton<IAssetsInfoEditorGeneric<PaymentAccount>, PaymentAccountAssetInfoEditor>();
+            services.AddSingleton<IAssetsInfoEditorGeneric<Сoupon>, СouponAssetInfoEditor>();
+            services.AddSingleton<IAssetsInfoEditorGeneric<RawMaterial>, RawMaterialAssetInfoEditor>();
+            services.AddSingleton<IAssetsInfoEditorGeneric<Realty>, RealtyAssetInfoEditor>();
 
             return services;
         }

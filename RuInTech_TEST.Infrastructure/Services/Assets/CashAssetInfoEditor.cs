@@ -1,4 +1,5 @@
 ﻿using RuInTech_TEST.Contract.Interfaces.Assets;
+using RuInTech_TEST.Contract.Models.Assets;
 using RuInTech_TEST.Contract.Models.Assets.Monetary;
 using RuInTech_TEST.Database;
 using System.Data.Entity;
@@ -10,7 +11,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
     /// <summary>
     /// Реализация контракта <see cref="IAssetsInfoEditor"/> для наличных.
     /// </summary>
-    internal class CashAssetInfoEditor : IAssetsInfoEditor<CashAsset>
+    internal class CashAssetInfoEditor : IAssetsInfoEditorGeneric<CashAsset>
     {
         private readonly IDbContextFactory<AssetContext> _dbContextFactory;
 
@@ -40,6 +41,11 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                 }
                 return entity.Id;
             }
+        }
+
+        public async Task<long?> AddAsset(Asset asset)
+        {
+            return await AddAsset((CashAsset)asset);
         }
 
         /// <inheritdoc/>
@@ -76,12 +82,18 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     Currency = (Database.Entities.Enums.CurrencyType)asset.MonetaryValue.Currency,
                 };
 
+                context.MonetaryAssets.Attach(entity);
                 context.Entry(entity).Property(x => x.Name).IsModified = true;
                 context.Entry(entity).Property(x => x.Cost).IsModified = true;
                 context.Entry(entity).Property(x => x.Currency).IsModified = true;
 
                 return await context.SaveChangesAsync() > 0;
             }
+        }
+
+        public async Task<bool> UpdateAsset(Asset asset)
+        {
+            return await UpdateAsset((CashAsset)asset);
         }
     }
 }
