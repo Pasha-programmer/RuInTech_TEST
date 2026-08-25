@@ -7,20 +7,6 @@ namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
     /// </summary>
     public class Realty : NonMonetaryAsset
     {
-        public Realty(
-            long? id,
-            string name,
-            MonetaryValue initialBalanceCost,
-            MonetaryValue residualBalanceCost,
-            MonetaryValue estimatedCost,
-            string inventoryNumber,
-            string additionalInfo)
-            : base(id, name, initialBalanceCost, residualBalanceCost, estimatedCost)
-        {
-            InventoryNumber = inventoryNumber;
-            AdditionalInfo = additionalInfo;
-        }
-
         /// <summary>
         /// Инвентарный номер.
         /// </summary>

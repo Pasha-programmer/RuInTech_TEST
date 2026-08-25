@@ -2,10 +2,14 @@
 using RuInTech_TEST.Common.Extensions;
 using RuInTech_TEST.Contract.Interfaces.Assets;
 using RuInTech_TEST.Contract.Models.Assets;
+using RuInTech_TEST.Contract.Models.Assets.Monetary;
+using RuInTech_TEST.Contract.Models.Assets.NonMonetary;
+using RuInTech_TEST.Contract.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RuInTech_TEST.UI
@@ -13,7 +17,6 @@ namespace RuInTech_TEST.UI
     public partial class AssetsForm : Form
     {
         private readonly IAssetsInfoGetter _assetsInfoGetter;
-        private readonly IAssetsInfoEditor _assetsInfoEditor;
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
@@ -23,17 +26,15 @@ namespace RuInTech_TEST.UI
 
         public AssetsForm(
             IAssetsInfoGetter assetsInfoGetter,
-            IAssetsInfoEditor assetsInfoEditor,
             IServiceProvider serviceProvider)
         {
             _assetsInfoGetter = assetsInfoGetter ?? throw new ArgumentNullException(nameof(assetsInfoGetter));
-            _assetsInfoEditor = assetsInfoEditor ?? throw new ArgumentNullException(nameof(assetsInfoEditor));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             InitializeComponent();
             InitializeGridColumns();
 
-            Load += (_, __) => ReloadAssets();
+            Load += async (_, __) => await ReloadAssets();
         }
 
         private void InitializeGridColumns()
@@ -71,9 +72,9 @@ namespace RuInTech_TEST.UI
             });
         }
 
-        private void ReloadAssets()
+        private async Task ReloadAssets()
         {
-            _assets = _assetsInfoGetter.GetAssets();
+            _assets = (await _assetsInfoGetter.GetAssets(null)).ToList();
 
             var rows = _assets.Select(a => new AssetGridRow
             {
@@ -102,35 +103,47 @@ namespace RuInTech_TEST.UI
             return _assets[index];
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private async void btnAdd_Click(object sender, EventArgs e)
         {
             using (var editForm = _serviceProvider.GetRequiredService<AssetEditForm>())
             {
                 editForm.Initialize(null);
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
-                    _assetsInfoEditor.AddAsset(editForm.ResultAsset);
-                    ReloadAssets();
+                    var editor = GetEditor(editForm.ResultAsset);
+                    if (editor != null)
+                    {
+                        var result = await editor.AddAsset(editForm.ResultAsset);
+                        if (result.HasValue)
+                        {
+                            await ReloadAssets();
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Не удалось добавить актив.", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private async void btnEdit_Click(object sender, EventArgs e)
         {
-            EditSelectedAsset();
+            await EditSelectedAsset();
         }
 
-        private void gridAssets_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private async void gridAssets_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
             {
                 return;
             }
 
-            EditSelectedAsset();
+            await EditSelectedAsset();
         }
 
-        private void EditSelectedAsset()
+        private async Task EditSelectedAsset()
         {
             var selected = GetSelectedAsset();
             if (selected == null)
@@ -145,13 +158,26 @@ namespace RuInTech_TEST.UI
                 editForm.Initialize(selected);
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
-                    _assetsInfoEditor.UpdateAsset(editForm.ResultAsset);
-                    ReloadAssets();
+                    var editor = GetEditor(editForm.ResultAsset);
+                    if (editor != null)
+                    {
+                        var result = await editor.UpdateAsset(editForm.ResultAsset);
+                        if (result)
+                        {
+                            await ReloadAssets();
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Не удалось обновить актив.", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
                 }
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
             var selected = GetSelectedAsset();
             if (selected == null)
@@ -169,14 +195,70 @@ namespace RuInTech_TEST.UI
 
             if (confirm == DialogResult.Yes && selected.Id.HasValue)
             {
-                _assetsInfoEditor.DeleteAsset(selected.Id.Value);
-                ReloadAssets();
+                var editor = GetEditor(selected);
+                if (editor != null)
+                {
+                    var result = await editor.DeleteAsset(selected.Id.Value);
+                    if (result)
+                    {
+                        await ReloadAssets();
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Не удалось удалить актив.", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private async void btnRefresh_Click(object sender, EventArgs e)
         {
-            ReloadAssets();
+            await ReloadAssets();
+        }
+
+        /// <summary>
+        /// Получить редактор для конкретного типа актива.
+        /// </summary>
+        private IAssetsInfoEditor<Asset> GetEditor(Asset asset)
+        {
+            if (asset == null)
+                return null;
+
+            // Получаем редактор по типу актива
+            try
+            {
+                IAssetsInfoEditor<Asset> editor = null;
+                switch (asset.AssetKind)
+                {
+                    case AssetKind.Cash:
+                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<CashAsset>>(AssetKind.Cash);
+                        break;
+                    case AssetKind.PaymentAccount:
+                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<PaymentAccount>>(AssetKind.PaymentAccount);
+                        break;
+                    case AssetKind.Coupon:
+                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<Сoupon>>(AssetKind.Coupon);
+                        break;
+                    case AssetKind.RawMaterial:
+                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<RawMaterial>>(AssetKind.RawMaterial);
+                        break;
+                    case AssetKind.Realty:
+                        _serviceProvider.GetRequiredKeyedService<IAssetsInfoEditor<Realty>>(AssetKind.Realty);
+                        break;
+                    default:
+                        throw new NotSupportedException($"Тип актива {asset.AssetKind} не поддерживается.");
+                }
+
+                // Приводим к общему типу
+                return editor;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Не найден редактор для типа актива: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
         }
 
         /// <summary>

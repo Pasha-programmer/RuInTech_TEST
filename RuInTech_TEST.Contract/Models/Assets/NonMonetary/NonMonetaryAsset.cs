@@ -5,19 +5,6 @@
     /// </summary>
     public abstract class NonMonetaryAsset : Asset
     {
-        protected NonMonetaryAsset(
-            long? id,
-            string name,
-            MonetaryValue initialBalanceCost,
-            MonetaryValue residualBalanceCost,
-            MonetaryValue estimatedCost)
-            : base(id, name)
-        {
-            InitialBalanceCost = initialBalanceCost;
-            ResidualBalanceCost = residualBalanceCost;
-            EstimatedCost = estimatedCost;
-        }
-
         /// <summary>
         /// Начальная балансовая стоимость.
         /// </summary>

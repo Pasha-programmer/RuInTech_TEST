@@ -1,16 +1,16 @@
-﻿using RuInTech_TEST.Database.Entities.Enums;
+﻿using RuInTech_TEST.Contract.Models.Enums;
 
-namespace RuInTech_TEST.Database.Entities.Assets
+namespace RuInTech_TEST.Contract.Models.FilterParameters
 {
     /// <summary>
-    /// Сущность актива.
+    /// Параметры фильтрации актива.
     /// </summary>
-    public class Asset
+    public class AssetFilterParameters
     {
         /// <summary>
         /// Идентификатор актива.
         /// </summary>
-        public long Id { get; set; }
+        public long[] AssetIds { get; set; }
 
         /// <summary>
         /// Наименование актива.
@@ -20,6 +20,6 @@ namespace RuInTech_TEST.Database.Entities.Assets
         /// <summary>
         /// Тип актива.
         /// </summary>
-        public AssetKind AssetKind { get; set; }
+        public AssetKind[] AssetKinds { get; }
     }
 }

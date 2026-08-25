@@ -24,7 +24,7 @@ namespace RuInTech_TEST.Database
 
         public DbSet<PaymentAccount> PaymentAccount { get; set; }
 
-        public DbSet<Сoupon> Сoupons { get; set; }
+        public DbSet<Сoupon> Coupons { get; set; }
 
         public DbSet<RawMaterial> RawMaterials { get; set; }
 

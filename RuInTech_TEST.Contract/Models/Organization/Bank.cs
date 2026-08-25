@@ -5,12 +5,6 @@
     /// </summary>
     public class Bank
     {
-        public Bank(long id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
         /// <summary>
         /// Идентификатор банка.
         /// </summary>

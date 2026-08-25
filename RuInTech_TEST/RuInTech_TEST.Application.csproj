@@ -242,8 +242,12 @@
       <Name>RuInTech_TEST.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\RuInTech_TEST.Infrastructure\RuInTech_TEST.Infrastructure.csproj">
-      <Project>{cc8b4fd7-8953-4cef-906a-a4335fd303c4}</Project>
+      <Project>{4ceafd00-38a7-4b28-9203-a84fff4d59f4}</Project>
       <Name>RuInTech_TEST.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuInTech_TEST.Infrastructure\RuInTech_TEST.Infrastructure2.csproj">
+      <Project>{cc8b4fd7-8953-4cef-906a-a4335fd303c4}</Project>
+      <Name>RuInTech_TEST.Infrastructure2</Name>
     </ProjectReference>
     <ProjectReference Include="..\RuInTech_TEST.UI\RuInTech_TEST.UI.csproj">
       <Project>{b9b9192d-02be-49f1-bf04-f1ab98dcd2fb}</Project>

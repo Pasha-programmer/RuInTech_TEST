@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RuInTech_TEST.Contract.Interfaces.Assets;
+using RuInTech_TEST.Contract.Models.Assets.Monetary;
+using RuInTech_TEST.Contract.Models.Assets.NonMonetary;
+using RuInTech_TEST.Contract.Models.Enums;
 using RuInTech_TEST.Database;
+using RuInTech_TEST.Infrastructure.Dtos.Assets.Monetary;
 using RuInTech_TEST.Infrastructure.Services.Assets;
 
 namespace RuInTech_TEST.Infrastructure
@@ -17,10 +21,12 @@ namespace RuInTech_TEST.Infrastructure
         {
             services.AddAssetsDatebase();
 
-            // Реализации внутренние (internal) - регистрируем их здесь,
-            // внутри той же сборки, чтобы не расширять публичный контракт сборки лишними типами.
             services.AddSingleton<IAssetsInfoGetter, AssetsInfoGetter>();
-            services.AddSingleton<IAssetsInfoEditor, AssetsInfoEditor>();
+            services.AddKeyedSingleton<IAssetsInfoEditor<CashAsset>, CashAssetInfoEditor>(AssetKind.Cash);
+            services.AddKeyedSingleton<IAssetsInfoEditor<PaymentAccount>, PaymentAccountAssetInfoEditor>(AssetKind.PaymentAccount);
+            services.AddKeyedSingleton<IAssetsInfoEditor<Сoupon>, СouponAssetInfoEditor>(AssetKind.Coupon);
+            services.AddKeyedSingleton<IAssetsInfoEditor<RawMaterial>, RawMaterialAssetInfoEditor>(AssetKind.RawMaterial);
+            services.AddKeyedSingleton<IAssetsInfoEditor<Realty>, RealtyAssetInfoEditor>(AssetKind.Realty);
 
             return services;
         }

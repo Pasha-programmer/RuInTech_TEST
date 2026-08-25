@@ -7,16 +7,6 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
     /// </summary>
     public class Сoupon : MonetaryAsset
     {
-        public Сoupon(
-            long? id,
-            string name,
-            MonetaryValue monetaryValue,
-            string type)
-            : base(id, name, monetaryValue)
-        {
-            Type = type;
-        }
-
         /// <summary>
         /// Вид купона/талона.
         /// </summary>

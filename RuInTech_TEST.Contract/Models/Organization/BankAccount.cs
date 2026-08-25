@@ -5,11 +5,10 @@
     /// </summary>
     public class BankAccount
     {
-        public BankAccount(string personalAccount, Bank bank)
-        {
-            PersonalAccount = personalAccount;
-            Bank = bank;
-        }
+        /// <summary>
+        /// Идентификатор банковского счета.
+        /// </summary>
+        public long Id { get; set; }
 
         /// <summary>
         /// Лицевой счет клиента банка.

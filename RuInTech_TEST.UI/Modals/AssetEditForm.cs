@@ -5,6 +5,7 @@ using RuInTech_TEST.Contract.Models.Assets.Monetary;
 using RuInTech_TEST.Contract.Models.Assets.NonMonetary;
 using RuInTech_TEST.Contract.Models.Enums;
 using RuInTech_TEST.Contract.Models.Organization;
+using RuInTech_TEST.Contract.Models.RawMaterial;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace RuInTech_TEST.UI
         // Сырьё / материалы
         private readonly GroupBox _grpRawMaterial = new GroupBox { Text = "Сырьё / материалы" };
         private readonly TextBox _txtRawType = new TextBox { Width = 260 };
-        private readonly TextBox _txtUnitOfMeasure = new TextBox { Width = 260 };
+        private readonly ComboBox _txtUnitOfMeasure = CreateUnitOfMeasureComboBox();
         private readonly NumericUpDown _numQuantity = new NumericUpDown
         {
             DecimalPlaces = 3,
@@ -141,6 +142,14 @@ namespace RuInTech_TEST.UI
             var combo = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 90 };
             combo.DataSource = Enum.GetValues(typeof(CurrencyType)).Cast<CurrencyType>().Select(ct => ct.GetDescription()).ToList();
             combo.SelectedValue = CurrencyType.RUB;
+            return combo;
+        }
+
+        private static ComboBox CreateUnitOfMeasureComboBox()
+        {
+            var combo = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 90 };
+            combo.DataSource = Enum.GetValues(typeof(UnitOfMeasure)).Cast<UnitOfMeasure>().Select(ct => ct.GetDescription()).ToList();
+            combo.SelectedValue = UnitOfMeasure.Kilogram;
             return combo;
         }
 
@@ -403,8 +412,8 @@ namespace RuInTech_TEST.UI
                     _cmbResidualCurrency.SelectedItem = raw.ResidualBalanceCost.Currency;
                     _numEstimatedCost.Value = raw.EstimatedCost.Cost;
                     _cmbEstimatedCurrency.SelectedItem = raw.EstimatedCost.Currency;
-                    _txtRawType.Text = raw.Type;
-                    _txtUnitOfMeasure.Text = raw.UnitOfMeasure;
+                    _txtRawType.Text = raw.RawMaterialKind.Name;
+                    _txtUnitOfMeasure.SelectedItem = raw.UnitOfMeasure;
                     _numQuantity.Value = (decimal)raw.Quantity;
                     _chkHasProductionDate.Checked = raw.ProductionDate.HasValue;
                     _dtpProductionDate.Enabled = raw.ProductionDate.HasValue;
@@ -434,55 +443,72 @@ namespace RuInTech_TEST.UI
             switch (GetSelectedKindByIndex(_cmbType.SelectedIndex))
             {
                 case AssetKind.Cash:
-                    asset = new CashAsset(
-                        id,
-                        name,
-                        new MonetaryValue(_numCost.Value, GetSelectedCurrencyTypeByIndex(_cmbCurrency.SelectedIndex)));
+                    asset = new CashAsset
+                    {
+                        Id = id,
+                        Name = name,
+                        MonetaryValue = new MonetaryValue(_numCost.Value, GetSelectedCurrencyTypeByIndex(_cmbCurrency.SelectedIndex)),
+                    };
                     break;
 
                 case AssetKind.PaymentAccount:
-                    asset = new PaymentAccount(
-                        id,
-                        name,
-                        new MonetaryValue(_numCost.Value, GetSelectedCurrencyTypeByIndex(_cmbCurrency.SelectedIndex)),
-                        new BankAccount(
-                            _txtAccountNumber.Text.Trim(),
-                            new Bank(
-                                (_existingAsset as PaymentAccount)?.BankAccount.Bank.Id ?? 0,
-                                _txtBankName.Text.Trim())));
+                    asset = new PaymentAccount
+                    {
+                        Id = id,
+                        Name = name,
+                        MonetaryValue = new MonetaryValue(_numCost.Value, GetSelectedCurrencyTypeByIndex(_cmbCurrency.SelectedIndex)),
+                        BankAccount = new BankAccount
+                        {
+                            PersonalAccount = _txtAccountNumber.Text.Trim(),
+                            Bank = new Bank
+                            {
+                                Id = (_existingAsset as PaymentAccount)?.BankAccount.Bank.Id ?? 0,
+                                Name = _txtBankName.Text.Trim(),
+                            },
+                        },
+                    };
                     break;
 
                 case AssetKind.Coupon:
-                    asset = new Сoupon(
-                        id,
-                        name,
-                        new MonetaryValue(_numCost.Value, GetSelectedCurrencyTypeByIndex(_cmbCurrency.SelectedIndex)),
-                        _txtCouponType.Text.Trim());
+                    asset = new Сoupon
+                    {
+                        Id = id,
+                        Name = name,
+                        MonetaryValue = new MonetaryValue(_numCost.Value, GetSelectedCurrencyTypeByIndex(_cmbCurrency.SelectedIndex)),
+                        Type = _txtCouponType.Text.Trim(),
+                    };
                     break;
 
                 case AssetKind.Realty:
-                    asset = new Realty(
-                        id,
-                        name,
-                        new MonetaryValue(_numInitialCost.Value, GetSelectedCurrencyTypeByIndex(_cmbInitialCurrency.SelectedIndex)),
-                        new MonetaryValue(_numResidualCost.Value, GetSelectedCurrencyTypeByIndex(_cmbResidualCurrency.SelectedIndex)),
-                        new MonetaryValue(_numEstimatedCost.Value, GetSelectedCurrencyTypeByIndex(_cmbEstimatedCurrency.SelectedIndex)),
-                        _txtInventoryNumber.Text.Trim(),
-                        _txtRealtyAdditionalInfo.Text.Trim());
+                    asset = new Realty
+                    {
+                        Id = id,
+                        Name = name,
+                        InitialBalanceCost = new MonetaryValue(_numInitialCost.Value, GetSelectedCurrencyTypeByIndex(_cmbInitialCurrency.SelectedIndex)),
+                        ResidualBalanceCost = new MonetaryValue(_numResidualCost.Value, GetSelectedCurrencyTypeByIndex(_cmbResidualCurrency.SelectedIndex)),
+                        EstimatedCost = new MonetaryValue(_numEstimatedCost.Value, GetSelectedCurrencyTypeByIndex(_cmbEstimatedCurrency.SelectedIndex)),
+                        InventoryNumber = _txtInventoryNumber.Text.Trim(),
+                        AdditionalInfo = _txtRealtyAdditionalInfo.Text.Trim(),
+                    };
                     break;
 
                 case AssetKind.RawMaterial:
-                    asset = new RawMaterial(
-                        id,
-                        name,
-                        new MonetaryValue(_numInitialCost.Value, GetSelectedCurrencyTypeByIndex(_cmbInitialCurrency.SelectedIndex)),
-                        new MonetaryValue(_numResidualCost.Value, GetSelectedCurrencyTypeByIndex(_cmbResidualCurrency.SelectedIndex)),
-                        new MonetaryValue(_numEstimatedCost.Value, GetSelectedCurrencyTypeByIndex(_cmbEstimatedCurrency.SelectedIndex)),
-                        _txtRawType.Text.Trim(),
-                        _txtUnitOfMeasure.Text.Trim(),
-                        (double)_numQuantity.Value,
-                        _chkHasProductionDate.Checked ? new DateTimeOffset(_dtpProductionDate.Value) : (DateTimeOffset?)null,
-                        string.IsNullOrWhiteSpace(_txtRawAdditionalInfo.Text) ? null : _txtRawAdditionalInfo.Text.Trim());
+                    asset = new RawMaterial
+                    {
+                        Id = id,
+                        Name = name,
+                        InitialBalanceCost = new MonetaryValue(_numInitialCost.Value, GetSelectedCurrencyTypeByIndex(_cmbInitialCurrency.SelectedIndex)),
+                        ResidualBalanceCost = new MonetaryValue(_numResidualCost.Value, GetSelectedCurrencyTypeByIndex(_cmbResidualCurrency.SelectedIndex)),
+                        EstimatedCost = new MonetaryValue(_numEstimatedCost.Value, GetSelectedCurrencyTypeByIndex(_cmbEstimatedCurrency.SelectedIndex)),
+                        RawMaterialKind = new RawMaterialKind
+                        {
+                            Name = _txtRawType.Text.Trim(),
+                        },
+                        UnitOfMeasure = GetSelectedUnitOfMeasureByIndex(_txtUnitOfMeasure.SelectedIndex),
+                        Quantity = (double)_numQuantity.Value,
+                        ProductionDate = _chkHasProductionDate.Checked ? new DateTimeOffset(_dtpProductionDate.Value) : (DateTimeOffset?)null,
+                        AdditionalInfo = string.IsNullOrWhiteSpace(_txtRawAdditionalInfo.Text) ? null : _txtRawAdditionalInfo.Text.Trim(),
+                    };
                     break;
 
                 default:
@@ -499,5 +525,7 @@ namespace RuInTech_TEST.UI
         private int GetSelectedIndexByKind(AssetKind assetKind) => (int)assetKind - 1;
 
         private CurrencyType GetSelectedCurrencyTypeByIndex(int index) => (CurrencyType)(index + 1);
+
+        private UnitOfMeasure GetSelectedUnitOfMeasureByIndex(int index) => (UnitOfMeasure)(index + 1);
     }
 }

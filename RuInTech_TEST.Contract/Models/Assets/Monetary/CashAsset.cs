@@ -7,13 +7,6 @@ namespace RuInTech_TEST.Contract.Models.Assets.Monetary
     /// </summary>
     public class CashAsset : MonetaryAsset
     {
-        public CashAsset(
-            long? id,
-            string name,
-            MonetaryValue monetaryValue)
-            : base(id, name, monetaryValue)
-        { }
-
         /// <inheritdoc/>
         public override AssetKind AssetKind => AssetKind.Cash;
 

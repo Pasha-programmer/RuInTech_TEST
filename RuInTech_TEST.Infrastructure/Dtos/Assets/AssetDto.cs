@@ -1,11 +1,11 @@
 ﻿using RuInTech_TEST.Contract.Models.Enums;
 
-namespace RuInTech_TEST.Contract.Models.Assets
+namespace RuInTech_TEST.Infrastructure.Dtos.Assets
 {
     /// <summary>
     /// Базовое представление актива.
     /// </summary>
-    public abstract class Asset
+    public class AssetDto
     {
         /// <summary>
         /// Идентификатор актива.
@@ -20,11 +20,6 @@ namespace RuInTech_TEST.Contract.Models.Assets
         /// <summary>
         /// Тип актива.
         /// </summary>
-        public abstract AssetKind AssetKind { get; }
-
-        /// <summary>
-        /// Краткая сводка по активу для колонки списка
-        /// </summary>
-        public abstract string Summary { get; }
+        public AssetKind AssetKind { get; set; }
     }
 }

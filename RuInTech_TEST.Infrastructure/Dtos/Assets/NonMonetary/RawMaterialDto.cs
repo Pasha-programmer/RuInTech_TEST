@@ -1,14 +1,13 @@
 ﻿using RuInTech_TEST.Contract.Models.Enums;
 using RuInTech_TEST.Contract.Models.RawMaterial;
 using System;
-using System.Globalization;
 
-namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
+namespace RuInTech_TEST.Infrastructure.Dtos.Assets.NonMonetary
 {
     /// <summary>
     /// Активы в виде сырья.
     /// </summary>
-    public class RawMaterial : NonMonetaryAsset
+    public class RawMaterialDto : NonMonetaryAssetDto
     {
         /// <summary>
         /// Вид сырья.
@@ -34,14 +33,5 @@ namespace RuInTech_TEST.Contract.Models.Assets.NonMonetary
         /// Дополнительная информация / примечание.
         /// </summary>
         public string AdditionalInfo { get; set; }
-
-        /// <inheritdoc/>
-        public override AssetKind AssetKind => AssetKind.RawMaterial;
-
-        /// <inheritdoc/>
-        public override string Summary => $"{Quantity.ToString(CultureInfo.InvariantCulture)} {UnitOfMeasure} ({RawMaterialKind.Name}); " +
-                $"баланс: {InitialBalanceCost} - {ResidualBalanceCost}; " +
-                $"оценка: {EstimatedCost}" +
-                (ProductionDate.HasValue ? $"; год: {ProductionDate.Value.Year}" : string.Empty);
     }
 }
