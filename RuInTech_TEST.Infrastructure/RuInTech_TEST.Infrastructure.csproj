@@ -72,6 +72,8 @@
     <Compile Include="Dtos\Assets\NonMonetary\NonMonetaryAssetDto.cs" />
     <Compile Include="Dtos\Assets\NonMonetary\RawMaterialDto.cs" />
     <Compile Include="Dtos\Assets\NonMonetary\RealtyDto.cs" />
+    <Compile Include="Dtos\Organization\BankDto.cs" />
+    <Compile Include="Dtos\Organization\BankAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Assets\RealtyAssetInfoEditor.cs" />
     <Compile Include="Services\Assets\RawMaterialAssetInfoEditor.cs" />
@@ -79,6 +81,10 @@
     <Compile Include="Services\Assets\PaymentAccountAssetInfoEditor.cs" />
     <Compile Include="Services\Assets\CashAssetInfoEditor.cs" />
     <Compile Include="Services\Assets\AssetsInfoGetter.cs" />
+    <Compile Include="Services\Organization\BankInfoEditorService.cs" />
+    <Compile Include="Services\Organization\BankAccountInfoEditorService.cs" />
+    <Compile Include="Services\Organization\BankAccountInfoGetterService.cs" />
+    <Compile Include="Services\Organization\BankInfoGetterService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuInTech_TEST.Contract\RuInTech_TEST.Contract.csproj">

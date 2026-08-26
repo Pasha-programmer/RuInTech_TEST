@@ -30,7 +30,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                 AssetKind = (Database.Entities.Enums.AssetKind)asset.AssetKind,
                 Cost = asset.MonetaryValue.Cost,
                 Currency = (Database.Entities.Enums.CurrencyType)asset.MonetaryValue.Currency,
-                BankAccountId = asset.BankAccount.Id,
+                BankAccountId = asset.BankAccount.Id.Value,
             };
 
             using (var context = _dbContextFactory.Create())
@@ -81,7 +81,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     Name = asset.Name,
                     Cost = asset.MonetaryValue.Cost,
                     Currency = (Database.Entities.Enums.CurrencyType)asset.MonetaryValue.Currency,
-                    BankAccountId = asset.BankAccount.Id,
+                    BankAccountId = asset.BankAccount.Id.Value,
                 };
 
                 context.Entry(entity).Property(x => x.Name).IsModified = true;

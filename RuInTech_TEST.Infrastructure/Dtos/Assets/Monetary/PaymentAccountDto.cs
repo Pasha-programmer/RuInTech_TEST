@@ -1,4 +1,4 @@
-﻿using RuInTech_TEST.Contract.Models.Organization;
+﻿using RuInTech_TEST.Infrastructure.Dtos.Organization;
 
 namespace RuInTech_TEST.Infrastructure.Dtos.Assets.Monetary
 {
@@ -10,6 +10,6 @@ namespace RuInTech_TEST.Infrastructure.Dtos.Assets.Monetary
         /// <summary>
         /// Банковский счет, к которому привязаны деньги.
         /// </summary>
-        public BankAccount BankAccount { get; set; }
+        public BankAccountDto BankAccount { get; set; }
     }
 }

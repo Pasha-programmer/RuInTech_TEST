@@ -1,14 +1,14 @@
-﻿namespace RuInTech_TEST.Contract.Models.Organization
+﻿namespace RuInTech_TEST.Infrastructure.Dtos.Organization
 {
     /// <summary>
     /// Банк.
     /// </summary>
-    public class Bank
+    public class BankDto
     {
         /// <summary>
         /// Идентификатор банка.
         /// </summary>
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Наименование банка.

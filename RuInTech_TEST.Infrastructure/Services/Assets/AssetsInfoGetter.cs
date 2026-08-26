@@ -11,6 +11,7 @@ using RuInTech_TEST.Database;
 using RuInTech_TEST.Infrastructure.Dtos.Assets;
 using RuInTech_TEST.Infrastructure.Dtos.Assets.Monetary;
 using RuInTech_TEST.Infrastructure.Dtos.Assets.NonMonetary;
+using RuInTech_TEST.Infrastructure.Dtos.Organization;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -102,10 +103,10 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                                               AssetKind = AssetKind.PaymentAccount,
                                               Cost = ma.Cost,
                                               Currency = (CurrencyType)ma.Currency,
-                                              BankAccount = new BankAccount
+                                              BankAccount = new BankAccountDto
                                               {
                                                   PersonalAccount = ba.PersonalAccount,
-                                                  Bank = new Bank
+                                                  Bank = new BankDto
                                                   {
                                                       Id = ba.BankId,
                                                       Name = b.Name,
@@ -122,7 +123,16 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     Id = a.Id,
                     Name = a.Name,
                     MonetaryValue = new MonetaryValue(a.Cost, a.Currency),
-                    BankAccount = a.BankAccount,
+                    BankAccount = new BankAccount
+                    {
+                        Id = a.BankAccount.Id,
+                        PersonalAccount = a.BankAccount.PersonalAccount,
+                        Bank = new Bank
+                        {
+                            Id = a.BankAccount.Bank.Id,
+                            Name = a.BankAccount.Bank.Name,
+                        },
+                    },
                 }).ToArray();
             }
         }

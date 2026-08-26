@@ -1,14 +1,14 @@
-﻿namespace RuInTech_TEST.Contract.Models.Organization
+﻿namespace RuInTech_TEST.Infrastructure.Dtos.Organization
 {
     /// <summary>
     /// Банковский счет.
     /// </summary>
-    public class BankAccount
+    public class BankAccountDto
     {
         /// <summary>
         /// Идентификатор банковского счета.
         /// </summary>
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Лицевой счет клиента банка.
@@ -18,6 +18,6 @@
         /// <summary>
         /// Банк.
         /// </summary>
-        public Bank Bank { get; set; }
+        public BankDto Bank { get; set; }
     }
 }

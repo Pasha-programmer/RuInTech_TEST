@@ -15,8 +15,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
     {
         private readonly IDbContextFactory<AssetContext> _dbContextFactory;
 
-        public СouponAssetInfoEditor(
-            IDbContextFactory<AssetContext> dbContextFactory)
+        public СouponAssetInfoEditor(IDbContextFactory<AssetContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
         }
