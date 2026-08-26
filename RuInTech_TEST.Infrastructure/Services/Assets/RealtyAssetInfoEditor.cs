@@ -94,6 +94,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     InventoryNumber = asset.InventoryNumber,
                 };
 
+                context.Realty.Attach(entity);
                 context.Entry(entity).Property(x => x.Name).IsModified = true;
                 context.Entry(entity).Property(x => x.InitialBalanceCost).IsModified = true;
                 context.Entry(entity).Property(x => x.InitialBalanceCostCurrency).IsModified = true;

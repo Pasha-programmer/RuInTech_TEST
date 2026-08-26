@@ -366,6 +366,12 @@ namespace RuInTech_TEST.UI
             _scrollPanel.SuspendLayout();
             _contentPanel.SuspendLayout();
 
+            if (_existingAsset != null)
+            {
+                _cmbBankName.Enabled = false;
+                _txtAccountNumber.Enabled = false;
+            }
+
             _grpMonetary.Visible = new[] { AssetKind.Cash, AssetKind.PaymentAccount, AssetKind.Coupon }.Contains(kind);
             _grpPaymentAccount.Visible = kind == AssetKind.PaymentAccount;
             _grpCoupon.Visible = kind == AssetKind.Coupon;

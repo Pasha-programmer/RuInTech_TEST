@@ -83,6 +83,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     Type = asset.Type,
                 };
 
+                context.Coupons.Attach(entity);
                 context.Entry(entity).Property(x => x.Name).IsModified = true;
                 context.Entry(entity).Property(x => x.Cost).IsModified = true;
                 context.Entry(entity).Property(x => x.Currency).IsModified = true;

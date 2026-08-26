@@ -100,6 +100,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     UnitOfMeasure = (Database.Entities.Enums.UnitOfMeasure)asset.UnitOfMeasure,
                 };
 
+                context.RawMaterials.Attach(entity);
                 context.Entry(entity).Property(x => x.Name).IsModified = true;
                 context.Entry(entity).Property(x => x.InitialBalanceCost).IsModified = true;
                 context.Entry(entity).Property(x => x.InitialBalanceCostCurrency).IsModified = true;

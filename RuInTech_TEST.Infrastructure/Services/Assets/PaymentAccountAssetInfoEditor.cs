@@ -95,13 +95,12 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     Name = asset.Name,
                     Cost = asset.MonetaryValue.Cost,
                     Currency = (Database.Entities.Enums.CurrencyType)asset.MonetaryValue.Currency,
-                    BankAccountId = asset.BankAccount.Id.Value,
                 };
 
+                context.PaymentAccount.Attach(entity);
                 context.Entry(entity).Property(x => x.Name).IsModified = true;
                 context.Entry(entity).Property(x => x.Cost).IsModified = true;
                 context.Entry(entity).Property(x => x.Currency).IsModified = true;
-                context.Entry(entity).Property(x => x.BankAccountId).IsModified = true;
 
                 return await context.SaveChangesAsync() > 0;
             }
