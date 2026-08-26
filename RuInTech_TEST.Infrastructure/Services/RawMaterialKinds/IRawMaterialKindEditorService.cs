@@ -1,35 +1,35 @@
-﻿using RuInTech_TEST.Contract.Interfaces.Organization;
-using RuInTech_TEST.Contract.Models.Organization;
+﻿using RuInTech_TEST.Contract.Models.RawMaterial;
 using RuInTech_TEST.Database;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 
-namespace RuInTech_TEST.Infrastructure.Services.Organization
+namespace RuInTech_TEST.Contract.Interfaces.RawMaterialKinds
 {
     /// <summary>
-    /// Реализация контракта <see cref="IBankInfoEditorService"/>
+    /// Реализация контракта <see cref="IRawMaterialKindEditorService"/>.
     /// </summary>
-    internal class BankInfoEditorService : IBankInfoEditorService
+    public class RawMaterialKindEditorService : IRawMaterialKindEditorService
     {
         private readonly IDbContextFactory<AssetContext> _dbContextFactory;
 
-        public BankInfoEditorService(IDbContextFactory<AssetContext> dbContextFactory)
+        public RawMaterialKindEditorService(IDbContextFactory<AssetContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
         }
 
         /// <inheritdoc/>
-        public async Task<long?> AddBank(Bank bank)
+        public async Task<long?> AddRawMaterialKind(RawMaterialKind rawMaterialKind)
         {
-            var entity = new Database.Entities.Organization.Bank
+            var entity = new Database.Entities.RawMaterial.RawMaterialKind
             {
-                Name = bank.Name,
+                Name = rawMaterialKind.Name,
+                Description = rawMaterialKind.Description,
             };
 
             using (var context = _dbContextFactory.Create())
             {
-                context.Banks.Add(entity);
+                context.RawMaterialKinds.Add(entity);
                 if (await context.SaveChangesAsync() == 0)
                 {
                     return null;
@@ -39,16 +39,16 @@ namespace RuInTech_TEST.Infrastructure.Services.Organization
         }
 
         /// <inheritdoc/>
-        public async Task<bool> DeleteBank(long bankId)
+        public async Task<bool> DeleteRawMaterialKind(long rawMaterialKindId)
         {
-            var entity = new Database.Entities.Organization.Bank
+            var entity = new Database.Entities.RawMaterial.RawMaterialKind
             {
-                Id = bankId,
+                Id = rawMaterialKindId,
             };
 
             using (var context = _dbContextFactory.Create())
             {
-                context.Banks.Attach(entity);
+                context.RawMaterialKinds.Attach(entity);
                 context.Entry(entity).State = EntityState.Deleted;
 
                 return await context.SaveChangesAsync() > 0;

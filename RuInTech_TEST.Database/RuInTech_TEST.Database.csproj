@@ -99,7 +99,7 @@
     <Compile Include="Dependencyinjection.cs" />
     <Compile Include="Entities\Assets\Asset.cs" />
     <Compile Include="Entities\Assets\Monetary\PaymentAccount.cs" />
-    <Compile Include="Entities\Assets\Monetary\Сoupon.cs" />
+    <Compile Include="Entities\Assets\Monetary\Coupon.cs" />
     <Compile Include="Entities\Assets\NonMonetary\NonMonetaryAsset.cs" />
     <Compile Include="Entities\Assets\NonMonetary\RawMaterial.cs" />
     <Compile Include="Entities\Assets\NonMonetary\Realty.cs" />

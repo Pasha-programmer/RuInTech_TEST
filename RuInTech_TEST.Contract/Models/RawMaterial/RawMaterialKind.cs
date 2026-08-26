@@ -8,7 +8,7 @@
         /// <summary>
         /// Идентификатор сырья.
         /// </summary>
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Наименвоание сырья.

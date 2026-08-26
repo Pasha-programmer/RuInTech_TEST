@@ -3,7 +3,7 @@
     /// <summary>
     /// Сущность купона / талона.
     /// </summary>
-    public class Сoupon : MonetaryAsset
+    public class Coupon : MonetaryAsset
     {
         /// <summary>
         /// Вид купона/талона.

@@ -1,0 +1,115 @@
+﻿namespace RuInTech_TEST.UI.Pages
+{
+    partial class RawMaterialKindsForm
+    {
+        /// <summary>
+        /// Обязательная переменная конструктора.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        private System.Windows.Forms.DataGridView gridRawMaterialKinds;
+        private System.Windows.Forms.Panel pnlButtons;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnRefresh;
+
+        /// <summary>
+        /// Освободить все используемые ресурсы.
+        /// </summary>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Требуемый метод для поддержки конструктора — не изменяйте 
+        /// содержимое этого метода с помощью редактора кода.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.gridRawMaterialKinds = new System.Windows.Forms.DataGridView();
+            this.pnlButtons = new System.Windows.Forms.Panel();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRawMaterialKinds)).BeginInit();
+            this.pnlButtons.SuspendLayout();
+            this.SuspendLayout();
+
+            // gridBanks
+            this.gridRawMaterialKinds.AllowUserToAddRows = false;
+            this.gridRawMaterialKinds.AllowUserToDeleteRows = false;
+            this.gridRawMaterialKinds.AllowUserToResizeRows = false;
+            this.gridRawMaterialKinds.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridRawMaterialKinds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridRawMaterialKinds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridRawMaterialKinds.Location = new System.Drawing.Point(0, 0);
+            this.gridRawMaterialKinds.MultiSelect = false;
+            this.gridRawMaterialKinds.Name = "gridBanks";
+            this.gridRawMaterialKinds.ReadOnly = true;
+            this.gridRawMaterialKinds.RowHeadersVisible = false;
+            this.gridRawMaterialKinds.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridRawMaterialKinds.Size = new System.Drawing.Size(884, 411);
+            this.gridRawMaterialKinds.TabIndex = 0;
+
+            // pnlButtons
+            this.pnlButtons.Controls.Add(this.btnRefresh);
+            this.pnlButtons.Controls.Add(this.btnDelete);
+            this.pnlButtons.Controls.Add(this.btnAdd);
+            this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlButtons.Location = new System.Drawing.Point(0, 411);
+            this.pnlButtons.Name = "pnlButtons";
+            this.pnlButtons.Padding = new System.Windows.Forms.Padding(10);
+            this.pnlButtons.Size = new System.Drawing.Size(884, 50);
+            this.pnlButtons.TabIndex = 1;
+
+            // btnRefresh
+            this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnRefresh.Location = new System.Drawing.Point(769, 10);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(105, 30);
+            this.btnRefresh.TabIndex = 3;
+            this.btnRefresh.Text = "Обновить";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+
+            // btnDelete
+            this.btnDelete.Location = new System.Drawing.Point(100, 10);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(70, 30);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "Удалить";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+
+            // btnAdd
+            this.btnAdd.Location = new System.Drawing.Point(10, 10);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(80, 30);
+            this.btnAdd.TabIndex = 0;
+            this.btnAdd.Text = "Добавить";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+
+            // BanksForm
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(884, 461);
+            this.Controls.Add(this.gridRawMaterialKinds);
+            this.Controls.Add(this.pnlButtons);
+            this.MinimumSize = new System.Drawing.Size(650, 350);
+            this.Name = "BanksForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Активы предприятия";
+            ((System.ComponentModel.ISupportInitialize)(this.gridRawMaterialKinds)).EndInit();
+            this.pnlButtons.ResumeLayout(false);
+            this.ResumeLayout(false);
+        }
+    }
+}
+

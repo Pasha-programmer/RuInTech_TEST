@@ -90,7 +90,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
             {
                 var paymentAccountQuery = from a in context.Assets
                                           join ma in context.MonetaryAssets on a.Id equals ma.Id
-                                          join pa in context.PaymentAccount on a.Id equals pa.Id
+                                          join pa in context.PaymentAccounts on a.Id equals pa.Id
                                           join ba in context.BankAccounts on pa.BankAccountId equals ba.BankAccountId
                                           join b in context.Banks on ba.BankId equals b.Id
 
@@ -175,29 +175,27 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
         {
             using (var context = _dbContextFactory.Create())
             {
-                var rawMaterialQuery = from a in context.Assets
-                                       join nma in context.NonMonetaryAssets on a.Id equals nma.Id
-                                       join rm in context.RawMaterials on a.Id equals rm.Id
+                var rawMaterialQuery = from rm in context.RawMaterials
                                        join rmk in context.RawMaterialKinds on rm.RawMaterialKindId equals rmk.Id
 
-                                       where a.AssetKind == Database.Entities.Enums.AssetKind.RawMaterial
+                                       where rm.AssetKind == Database.Entities.Enums.AssetKind.RawMaterial
 
                                        select new RawMaterialDto
                                        {
-                                           Id = a.Id,
-                                           Name = a.Name,
+                                           Id = rm.Id,
+                                           Name = rm.Name,
                                            RawMaterialKind = new RawMaterialKind
                                            {
                                                Id = rmk.Id,
                                                Name = rmk.Name,
                                                Description = rmk.Description,
                                            },
-                                           InitialBalanceCost = nma.InitialBalanceCost,
-                                           InitialBalanceCostCurrency = (CurrencyType)nma.InitialBalanceCostCurrency,
-                                           ResidualBalanceCost = nma.ResidualBalanceCost,
-                                           ResidualBalanceCostCurrency = (CurrencyType)nma.ResidualBalanceCostCurrency,
-                                           EstimatedCost = nma.EstimatedCost,
-                                           EstimatedCostCurrency = (CurrencyType)nma.EstimatedCostCurrency,
+                                           InitialBalanceCost = rm.InitialBalanceCost,
+                                           InitialBalanceCostCurrency = (CurrencyType)rm.InitialBalanceCostCurrency,
+                                           ResidualBalanceCost = rm.ResidualBalanceCost,
+                                           ResidualBalanceCostCurrency = (CurrencyType)rm.ResidualBalanceCostCurrency,
+                                           EstimatedCost = rm.EstimatedCost,
+                                           EstimatedCostCurrency = (CurrencyType)rm.EstimatedCostCurrency,
                                            Quantity = rm.Quantity,
                                            UnitOfMeasure = (UnitOfMeasure)rm.UnitOfMeasure,
                                            ProductionDate = rm.ProductionDate,
@@ -229,22 +227,20 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
         {
             using (var context = _dbContextFactory.Create())
             {
-                var realtyQuery = from a in context.Assets
-                                  join nma in context.NonMonetaryAssets on a.Id equals nma.Id
-                                  join r in context.Realty on a.Id equals r.Id
+                var realtyQuery = from r in context.Realty
 
-                                  where a.AssetKind == Database.Entities.Enums.AssetKind.Realty
+                                  where r.AssetKind == Database.Entities.Enums.AssetKind.Realty
 
                                   select new RealtyDto
                                   {
-                                      Id = a.Id,
-                                      Name = a.Name,
-                                      InitialBalanceCost = nma.InitialBalanceCost,
-                                      InitialBalanceCostCurrency = (CurrencyType)nma.InitialBalanceCostCurrency,
-                                      ResidualBalanceCost = nma.ResidualBalanceCost,
-                                      ResidualBalanceCostCurrency = (CurrencyType)nma.ResidualBalanceCostCurrency,
-                                      EstimatedCost = nma.EstimatedCost,
-                                      EstimatedCostCurrency = (CurrencyType)nma.EstimatedCostCurrency,
+                                      Id = r.Id,
+                                      Name = r.Name,
+                                      InitialBalanceCost = r.InitialBalanceCost,
+                                      InitialBalanceCostCurrency = (CurrencyType)r.InitialBalanceCostCurrency,
+                                      ResidualBalanceCost = r.ResidualBalanceCost,
+                                      ResidualBalanceCostCurrency = (CurrencyType)r.ResidualBalanceCostCurrency,
+                                      EstimatedCost = r.EstimatedCost,
+                                      EstimatedCostCurrency = (CurrencyType)r.EstimatedCostCurrency,
                                       InventoryNumber = r.InventoryNumber,
                                       AdditionalInfo = r.AdditionalInfo,
                                       AssetKind = AssetKind.Realty,

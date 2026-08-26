@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RuInTech_TEST.Common.Extensions;
 using RuInTech_TEST.Contract.Interfaces.Assets;
-using RuInTech_TEST.Contract.Interfaces.Organization;
 using RuInTech_TEST.Contract.Models.Assets;
-using RuInTech_TEST.Contract.Models.Organization;
 using RuInTech_TEST.UI.Pages;
 using System;
 using System.Collections.Generic;
@@ -235,6 +233,20 @@ namespace RuInTech_TEST.UI
             catch (Exception ex)
             {
                 MessageBox.Show(this, $"Не удалось открыть окно банков: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void menuRawMaterialKinds_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var banksForm = _serviceProvider.GetRequiredService<RawMaterialKindsForm>();
+                banksForm.ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Не удалось открыть окно сырья: {ex.Message}", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

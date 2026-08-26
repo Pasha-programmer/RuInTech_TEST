@@ -58,6 +58,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
 
             using (var context = _dbContextFactory.Create())
             {
+                context.MonetaryAssets.Attach(entity);
                 context.Entry(entity).State = EntityState.Deleted;
 
                 return await context.SaveChangesAsync() > 0;

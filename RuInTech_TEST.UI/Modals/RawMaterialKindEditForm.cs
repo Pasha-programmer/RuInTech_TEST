@@ -1,4 +1,4 @@
-using RuInTech_TEST.Contract.Models.Organization;
+using RuInTech_TEST.Contract.Models.RawMaterial;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -6,16 +6,16 @@ using System.Windows.Forms;
 namespace RuInTech_TEST.UI
 {
     /// <summary>
-    /// Форма добавления / редактирования актива.
-    /// Набор видимых полей зависит от выбранного типа актива.
+    /// Форма добавления / редактирования сырья.
     /// </summary>
-    internal class BankEditForm : Form
+    internal class RawMaterialKindEditForm : Form
     {
         private const int ContentWidth = 580;
         private const int LabelColumnWidth = 210;
         private const int RowHeight = 32;
 
         private readonly TextBox _txtName = new TextBox { Width = 260 };
+        private readonly TextBox _txtDescription = new TextBox { Width = 260 };
 
         private readonly Button _btnOk = new Button { Text = "OK", DialogResult = DialogResult.OK, Width = 100, Height = 32 };
         private readonly Button _btnCancel = new Button { Text = "Отмена", DialogResult = DialogResult.Cancel, Width = 100, Height = 32 };
@@ -36,7 +36,7 @@ namespace RuInTech_TEST.UI
             Padding = new Padding(10),
         };
 
-        public Bank ResultBank { get; private set; }
+        public RawMaterialKind ResultRawMaterialKind { get; private set; }
 
         public void Initialize()
         {
@@ -48,7 +48,7 @@ namespace RuInTech_TEST.UI
 
         private void InitializeForCreate()
         {
-            Text = "Новый банк";
+            Text = "Новое сырье";
         }
 
         private void BuildLayout()
@@ -73,7 +73,8 @@ namespace RuInTech_TEST.UI
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             root.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
 
-            _contentPanel.Controls.Add(LabeledRow("Наименование банка:", _txtName));
+            _contentPanel.Controls.Add(LabeledRow("Наименование сырья:", _txtName));
+            _contentPanel.Controls.Add(LabeledRow("Описание сырья:", _txtDescription));
 
             _scrollPanel.Controls.Add(_contentPanel);
 
@@ -155,10 +156,12 @@ namespace RuInTech_TEST.UI
             }
 
             var name = _txtName.Text.Trim();
+            var description = _txtDescription.Text.Trim();
 
-            ResultBank = new Bank
+            ResultRawMaterialKind = new RawMaterialKind
             {
                 Name = name,
+                Description = description,
             };
 
             DialogResult = DialogResult.OK;

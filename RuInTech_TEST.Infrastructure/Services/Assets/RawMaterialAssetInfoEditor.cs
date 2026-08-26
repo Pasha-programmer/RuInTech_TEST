@@ -34,7 +34,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                 ResidualBalanceCostCurrency = (Database.Entities.Enums.CurrencyType)asset.ResidualBalanceCost.Currency,
                 EstimatedCost = asset.EstimatedCost.Cost,
                 EstimatedCostCurrency = (Database.Entities.Enums.CurrencyType)asset.EstimatedCost.Currency,
-                RawMaterialKindId = asset.RawMaterialKind.Id,
+                RawMaterialKindId = asset.RawMaterialKind.Id.Value,
                 AdditionalInfo = asset.AdditionalInfo,
                 ProductionDate = asset.ProductionDate,
                 Quantity = asset.Quantity,
@@ -67,6 +67,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
 
             using (var context = _dbContextFactory.Create())
             {
+                context.RawMaterials.Attach(entity);
                 context.Entry(entity).State = EntityState.Deleted;
 
                 return await context.SaveChangesAsync() > 0;
@@ -93,7 +94,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     ResidualBalanceCostCurrency = (Database.Entities.Enums.CurrencyType)asset.ResidualBalanceCost.Currency,
                     EstimatedCost = asset.EstimatedCost.Cost,
                     EstimatedCostCurrency = (Database.Entities.Enums.CurrencyType)asset.EstimatedCost.Currency,
-                    RawMaterialKindId = asset.RawMaterialKind.Id,
+                    RawMaterialKindId = asset.RawMaterialKind.Id.Value,
                     AdditionalInfo = asset.AdditionalInfo,
                     ProductionDate = asset.ProductionDate,
                     Quantity = asset.Quantity,

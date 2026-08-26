@@ -85,6 +85,8 @@
     <Compile Include="Services\Organization\BankAccountInfoEditorService.cs" />
     <Compile Include="Services\Organization\BankAccountInfoGetterService.cs" />
     <Compile Include="Services\Organization\BankInfoGetterService.cs" />
+    <Compile Include="Services\RawMaterialKinds\IRawMaterialKindEditorService.cs" />
+    <Compile Include="Services\RawMaterialKinds\IRawMaterialKindGetterService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuInTech_TEST.Contract\RuInTech_TEST.Contract.csproj">

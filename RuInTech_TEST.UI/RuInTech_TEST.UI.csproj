@@ -61,11 +61,20 @@
       <DependentUpon>Assets.cs</DependentUpon>
     </Compile>
     <Compile Include="Dependencyinjection.cs" />
+    <Compile Include="Modals\RawMaterialKindEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modals\BankEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modals\AssetEditForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\RawMaterialKinds.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\RawMaterialKinds.Designer.cs">
+      <DependentUpon>RawMaterialKinds.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\Banks.cs">
       <SubType>Form</SubType>
@@ -79,6 +88,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets.resx">
       <DependentUpon>Assets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modals\RawMaterialKindEditForm.resx">
+      <DependentUpon>RawMaterialKindEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modals\BankEditForm.resx">
       <DependentUpon>BankEditForm.cs</DependentUpon>

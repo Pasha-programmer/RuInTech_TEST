@@ -1,5 +1,6 @@
 using RuInTech_TEST.Common.Extensions;
 using RuInTech_TEST.Contract.Interfaces.Organization;
+using RuInTech_TEST.Contract.Interfaces.RawMaterialKinds;
 using RuInTech_TEST.Contract.Models;
 using RuInTech_TEST.Contract.Models.Assets;
 using RuInTech_TEST.Contract.Models.Assets.Monetary;
@@ -23,15 +24,20 @@ namespace RuInTech_TEST.UI
     internal class AssetEditForm : Form
     {
         private readonly IBankInfoGetterService _bankInfoGetterService;
+        private readonly IRawMaterialKindGetterService _rawMaterialKindGetterService;
 
-        public AssetEditForm(IBankInfoGetterService bankInfoGetterService)
+        public AssetEditForm(
+            IBankInfoGetterService bankInfoGetterService,
+            IRawMaterialKindGetterService rawMaterialKindGetterService)
         {
             _bankInfoGetterService = bankInfoGetterService;
+            _rawMaterialKindGetterService = rawMaterialKindGetterService;
         }
 
         private Asset _existingAsset;
 
         private IReadOnlyList<Bank> _banks = Array.Empty<Bank>();
+        private IReadOnlyList<RawMaterialKind> _rawMaterialKinds = Array.Empty<RawMaterialKind>();
 
         private const int ContentWidth = 580;
         private const int LabelColumnWidth = 210;
@@ -70,7 +76,7 @@ namespace RuInTech_TEST.UI
 
         // Сырьё / материалы
         private readonly GroupBox _grpRawMaterial = new GroupBox { Text = "Сырьё / материалы" };
-        private readonly TextBox _txtRawType = new TextBox { Width = 260 };
+        private readonly ComboBox _cmbRawType = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 260 };
         private readonly ComboBox _txtUnitOfMeasure = CreateUnitOfMeasureComboBox();
         private readonly NumericUpDown _numQuantity = new NumericUpDown
         {
@@ -194,6 +200,9 @@ namespace RuInTech_TEST.UI
             _banks = (await _bankInfoGetterService.GetBankFullInfo()).ToArray();
             _cmbBankName.Items.AddRange(_banks.Select(b => b.Name).ToArray());
 
+            _rawMaterialKinds = (await _rawMaterialKindGetterService.GetRawMaterialKinds()).ToArray();
+            _cmbRawType.Items.AddRange(_rawMaterialKinds.Select(b => $"{b.Name} - {b.Description}").ToArray());
+
             _contentPanel.Controls.Add(LabeledRow("Наименование актива:", _txtName));
             _contentPanel.Controls.Add(LabeledRow("Тип актива:", _cmbType));
 
@@ -238,7 +247,7 @@ namespace RuInTech_TEST.UI
 
             // --- Сырьё / материалы ---
             var rawFlow = CreateGroupContent();
-            rawFlow.Controls.Add(LabeledRow("Вид сырья:", _txtRawType));
+            rawFlow.Controls.Add(LabeledRow("Вид сырья:", _cmbRawType));
             rawFlow.Controls.Add(LabeledRow("Единица измерения:", _txtUnitOfMeasure));
             rawFlow.Controls.Add(LabeledRow("Количество:", _numQuantity));
             rawFlow.Controls.Add(_chkHasProductionDate);
@@ -396,7 +405,7 @@ namespace RuInTech_TEST.UI
                     _cmbType.SelectedIndex = GetSelectedIndexByKind(AssetKind.PaymentAccount);
                     _numCost.Value = pa.MonetaryValue.Cost;
                     _cmbCurrency.SelectedItem = pa.MonetaryValue.Currency;
-                    _cmbBankName.Text = pa.BankAccount.Bank.Name;
+                    _cmbBankName.SelectedIndex = Array.IndexOf(_banks.ToArray(), _banks.First(b => b.Id == pa.BankAccount.Bank.Id));
                     _txtAccountNumber.Text = pa.BankAccount.PersonalAccount;
                     break;
 
@@ -433,7 +442,7 @@ namespace RuInTech_TEST.UI
                     _cmbResidualCurrency.SelectedItem = raw.ResidualBalanceCost.Currency;
                     _numEstimatedCost.Value = raw.EstimatedCost.Cost;
                     _cmbEstimatedCurrency.SelectedItem = raw.EstimatedCost.Currency;
-                    _txtRawType.Text = raw.RawMaterialKind.Name;
+                    _cmbRawType.SelectedIndex = Array.IndexOf(_rawMaterialKinds.ToArray(), _rawMaterialKinds.First(rmk => rmk.Id == raw.RawMaterialKind.Id));
                     _txtUnitOfMeasure.SelectedItem = raw.UnitOfMeasure;
                     _numQuantity.Value = (decimal)raw.Quantity;
                     _chkHasProductionDate.Checked = raw.ProductionDate.HasValue;
@@ -522,7 +531,7 @@ namespace RuInTech_TEST.UI
                         EstimatedCost = new MonetaryValue(_numEstimatedCost.Value, GetSelectedCurrencyTypeByIndex(_cmbEstimatedCurrency.SelectedIndex)),
                         RawMaterialKind = new RawMaterialKind
                         {
-                            Name = _txtRawType.Text.Trim(),
+                            Id = _rawMaterialKinds[_cmbRawType.SelectedIndex].Id,
                         },
                         UnitOfMeasure = GetSelectedUnitOfMeasureByIndex(_txtUnitOfMeasure.SelectedIndex),
                         Quantity = (double)_numQuantity.Value,

@@ -23,7 +23,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
         /// <inheritdoc/>
         public async Task<long?> AddAsset(Сoupon asset)
         {
-            var entity = new Database.Entities.Assets.Monetary.Сoupon
+            var entity = new Database.Entities.Assets.Monetary.Coupon
             {
                 Name = asset.Name,
                 AssetKind = (Database.Entities.Enums.AssetKind)asset.AssetKind,
@@ -51,13 +51,14 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
         /// <inheritdoc/>
         public async Task<bool> DeleteAsset(long assetId)
         {
-            var entity = new Database.Entities.Assets.Monetary.Сoupon
+            var entity = new Database.Entities.Assets.Monetary.Coupon
             {
                 Id = assetId,
             };
 
             using (var context = _dbContextFactory.Create())
             {
+                context.Coupons.Attach(entity);
                 context.Entry(entity).State = EntityState.Deleted;
 
                 return await context.SaveChangesAsync() > 0;
@@ -74,7 +75,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
 
             using (var context = _dbContextFactory.Create())
             {
-                var entity = new Database.Entities.Assets.Monetary.Сoupon
+                var entity = new Database.Entities.Assets.Monetary.Coupon
                 {
                     Id = asset.Id.Value,
                     Name = asset.Name,

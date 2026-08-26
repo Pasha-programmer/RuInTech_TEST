@@ -17,6 +17,8 @@ namespace RuInTech_TEST.UI
             services.AddTransient<AssetEditForm>();
             services.AddTransient<BanksForm>();
             services.AddTransient<BankEditForm>();
+            services.AddTransient<RawMaterialKindsForm>();
+            services.AddTransient<RawMaterialKindEditForm>();
 
             return services;
         }

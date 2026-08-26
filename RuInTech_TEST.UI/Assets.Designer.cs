@@ -17,6 +17,7 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem menuFile;
         private System.Windows.Forms.ToolStripMenuItem menuBanks;
+        private System.Windows.Forms.ToolStripMenuItem menuRawMaterialKinds;
 
         /// <summary>
         /// Освободить все используемые ресурсы.
@@ -47,6 +48,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBanks = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRawMaterialKinds = new System.Windows.Forms.ToolStripMenuItem();
 
             ((System.ComponentModel.ISupportInitialize)(this.gridAssets)).BeginInit();
             this.pnlButtons.SuspendLayout();
@@ -128,8 +130,11 @@
             this.menuStrip.Text = "menuStrip";
 
             // menuFile
-            this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this.menuBanks});
+            this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] 
+            {
+                this.menuBanks,
+                this.menuRawMaterialKinds,
+            });
             this.menuFile.Name = "menuFile";
             this.menuFile.Size = new System.Drawing.Size(65, 24);
             this.menuFile.Text = "Меню";
@@ -139,6 +144,11 @@
             this.menuBanks.Size = new System.Drawing.Size(168, 26);
             this.menuBanks.Text = "Банки";
             this.menuBanks.Click += new System.EventHandler(this.menuBanks_Click);
+
+            this.menuRawMaterialKinds.Name = "menuRawMaterialKinds";
+            this.menuRawMaterialKinds.Size = new System.Drawing.Size(168, 26);
+            this.menuRawMaterialKinds.Text = "Виды сырья";
+            this.menuRawMaterialKinds.Click += new System.EventHandler(this.menuRawMaterialKinds_Click);
 
             // AssetsForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);

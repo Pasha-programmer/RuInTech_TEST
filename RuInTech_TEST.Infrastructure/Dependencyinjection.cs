@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RuInTech_TEST.Contract.Interfaces.Assets;
 using RuInTech_TEST.Contract.Interfaces.Organization;
+using RuInTech_TEST.Contract.Interfaces.RawMaterialKinds;
 using RuInTech_TEST.Contract.Models.Assets.Monetary;
 using RuInTech_TEST.Contract.Models.Assets.NonMonetary;
 using RuInTech_TEST.Contract.Models.Enums;
@@ -34,6 +35,9 @@ namespace RuInTech_TEST.Infrastructure
             services.AddSingleton<IBankInfoEditorService, BankInfoEditorService>();
             services.AddSingleton<IBankAccountInfoGetterService, BankAccountInfoGetterService>();
             services.AddSingleton<IBankAccountInfoEditorService, BankAccountInfoEditorService>();
+
+            services.AddSingleton<IRawMaterialKindEditorService, RawMaterialKindEditorService>();
+            services.AddSingleton<IRawMaterialKindGetterService, RawMaterialKindGetterService>();
 
             return services;
         }

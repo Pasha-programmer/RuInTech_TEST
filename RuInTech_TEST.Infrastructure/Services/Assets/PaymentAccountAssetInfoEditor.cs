@@ -49,7 +49,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
 
             using (var context = _dbContextFactory.Create())
             {
-                context.PaymentAccount.Add(entity);
+                context.PaymentAccounts.Add(entity);
                 if (await context.SaveChangesAsync() == 0)
                 {
                     return null;
@@ -73,6 +73,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
 
             using (var context = _dbContextFactory.Create())
             {
+                context.PaymentAccounts.Attach(entity);
                 context.Entry(entity).State = EntityState.Deleted;
 
                 return await context.SaveChangesAsync() > 0;
@@ -97,7 +98,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
                     Currency = (Database.Entities.Enums.CurrencyType)asset.MonetaryValue.Currency,
                 };
 
-                context.PaymentAccount.Attach(entity);
+                context.PaymentAccounts.Attach(entity);
                 context.Entry(entity).Property(x => x.Name).IsModified = true;
                 context.Entry(entity).Property(x => x.Cost).IsModified = true;
                 context.Entry(entity).Property(x => x.Currency).IsModified = true;

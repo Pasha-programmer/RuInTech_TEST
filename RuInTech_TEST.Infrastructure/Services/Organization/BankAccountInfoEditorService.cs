@@ -60,6 +60,7 @@ namespace RuInTech_TEST.Infrastructure.Services.Organization
 
             using (var context = _dbContextFactory.Create())
             {
+                context.BankAccounts.Attach(entity);
                 context.Entry(entity).State = EntityState.Deleted;
 
                 return await context.SaveChangesAsync() > 0;

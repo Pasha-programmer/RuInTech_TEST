@@ -22,9 +22,9 @@ namespace RuInTech_TEST.Database
 
         public DbSet<NonMonetaryAsset> NonMonetaryAssets { get; set; }
 
-        public DbSet<PaymentAccount> PaymentAccount { get; set; }
+        public DbSet<PaymentAccount> PaymentAccounts { get; set; }
 
-        public DbSet<Сoupon> Coupons { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
 
         public DbSet<RawMaterial> RawMaterials { get; set; }
 
@@ -137,7 +137,7 @@ namespace RuInTech_TEST.Database
 
         private void OnСouponCreating(DbModelBuilder modelBuilder)
         {
-            var couponEntity = modelBuilder.Entity<Сoupon>();
+            var couponEntity = modelBuilder.Entity<Coupon>();
             couponEntity.ToTable("coupon_assets");
 
             couponEntity.Property(e => e.Type)

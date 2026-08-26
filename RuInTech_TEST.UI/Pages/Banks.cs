@@ -72,7 +72,7 @@ namespace RuInTech_TEST.UI.Pages
             using (var editForm = _serviceProvider.GetRequiredService<BankEditForm>())
             {
                 editForm.Initialize();
-                if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
+                if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultBank != null)
                 {
                     var editor = _serviceProvider.GetRequiredService(typeof(IBankInfoEditorService)) as IBankInfoEditorService;
 
@@ -81,14 +81,14 @@ namespace RuInTech_TEST.UI.Pages
                         return;
                     }
 
-                    var result = await editor.AddBank(editForm.ResultAsset);
+                    var result = await editor.AddBank(editForm.ResultBank);
                     if (result.HasValue)
                     {
                         await ReloadBanks();
                     }
                     else
                     {
-                        MessageBox.Show(this, "Не удалось добавить актив.", "Ошибка",
+                        MessageBox.Show(this, "Не удалось добавить банк.", "Ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -100,7 +100,7 @@ namespace RuInTech_TEST.UI.Pages
             var selected = GetSelectedBank();
             if (selected == null)
             {
-                MessageBox.Show(this, "Выберите банк для удаления.", "Активы",
+                MessageBox.Show(this, "Выберите банк для удаления.", "Банки",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -126,7 +126,7 @@ namespace RuInTech_TEST.UI.Pages
                 }
                 else
                 {
-                    MessageBox.Show(this, "Не удалось удалить актив.", "Ошибка",
+                    MessageBox.Show(this, "Не удалось удалить банк.", "Ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
