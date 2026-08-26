@@ -1,7 +1,11 @@
 ﻿using RuInTech_TEST.Contract.Interfaces.Assets;
+using RuInTech_TEST.Contract.Interfaces.Organization;
 using RuInTech_TEST.Contract.Models.Assets;
 using RuInTech_TEST.Contract.Models.Assets.Monetary;
+using RuInTech_TEST.Contract.Models.Organization;
 using RuInTech_TEST.Database;
+using RuInTech_TEST.Infrastructure.Services.Organization;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
@@ -14,16 +18,26 @@ namespace RuInTech_TEST.Infrastructure.Services.Assets
     internal class PaymentAccountAssetInfoEditor : IAssetsInfoEditorGeneric<PaymentAccount>
     {
         private readonly IDbContextFactory<AssetContext> _dbContextFactory;
+        private readonly IBankAccountInfoEditorService _bankAccountInfoEditorService;
 
         public PaymentAccountAssetInfoEditor(
-            IDbContextFactory<AssetContext> dbContextFactory)
+            IDbContextFactory<AssetContext> dbContextFactory,
+            IBankAccountInfoEditorService bankAccountInfoEditorService)
         {
             _dbContextFactory = dbContextFactory;
+            _bankAccountInfoEditorService = bankAccountInfoEditorService;
         }
 
         /// <inheritdoc/>
         public async Task<long?> AddAsset(PaymentAccount asset)
         {
+            asset.BankAccount.Id = await _bankAccountInfoEditorService.AddBankAccount(asset.BankAccount);
+
+            if (!asset.BankAccount.Id.HasValue)
+            {
+                return null;
+            }
+
             var entity = new Database.Entities.Assets.Monetary.PaymentAccount
             {
                 Name = asset.Name,

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RuInTech_TEST.Common.Extensions;
 using RuInTech_TEST.Contract.Interfaces.Assets;
+using RuInTech_TEST.Contract.Interfaces.Organization;
 using RuInTech_TEST.Contract.Models.Assets;
+using RuInTech_TEST.Contract.Models.Organization;
 using RuInTech_TEST.UI.Pages;
 using System;
 using System.Collections.Generic;
@@ -105,10 +107,11 @@ namespace RuInTech_TEST.UI
         {
             using (var editForm = _serviceProvider.GetRequiredService<AssetEditForm>())
             {
-                editForm.Initialize(null);
+                await editForm.Initialize(null);
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
                     var editor = GetEditor(editForm.ResultAsset);
+
                     if (editor == null)
                     {
                         return;
@@ -155,7 +158,7 @@ namespace RuInTech_TEST.UI
 
             using (var editForm = _serviceProvider.GetRequiredService<AssetEditForm>())
             {
-                editForm.Initialize(selected);
+                await editForm.Initialize(selected);
                 if (editForm.ShowDialog(this) == DialogResult.OK && editForm.ResultAsset != null)
                 {
                     var editor = GetEditor(editForm.ResultAsset);

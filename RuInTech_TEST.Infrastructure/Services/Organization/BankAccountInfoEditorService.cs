@@ -13,15 +13,26 @@ namespace RuInTech_TEST.Infrastructure.Services.Organization
     internal class BankAccountInfoEditorService : IBankAccountInfoEditorService
     {
         private readonly IDbContextFactory<AssetContext> _dbContextFactory;
+        private readonly IBankAccountInfoGetterService _bankAccountInfoGetterService;
 
-        public BankAccountInfoEditorService(IDbContextFactory<AssetContext> dbContextFactory)
+        public BankAccountInfoEditorService(
+            IDbContextFactory<AssetContext> dbContextFactory,
+            IBankAccountInfoGetterService bankAccountInfoGetterService)
         {
             _dbContextFactory = dbContextFactory;
+            _bankAccountInfoGetterService = bankAccountInfoGetterService;
         }
 
         /// <inheritdoc/>
         public async Task<long?> AddBankAccount(BankAccount bankAccount)
         {
+            var personalAccountId = await _bankAccountInfoGetterService.GetPersonalAccountId(bankAccount.PersonalAccount, bankAccount.Bank.Id.Value);
+
+            if (personalAccountId.HasValue)
+            {
+                return personalAccountId;
+            }
+
             var entity = new Database.Entities.Organization.BankAccount
             {
                 BankId = bankAccount.Bank.Id.Value,

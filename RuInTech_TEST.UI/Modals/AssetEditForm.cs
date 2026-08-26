@@ -1,4 +1,5 @@
 using RuInTech_TEST.Common.Extensions;
+using RuInTech_TEST.Contract.Interfaces.Organization;
 using RuInTech_TEST.Contract.Models;
 using RuInTech_TEST.Contract.Models.Assets;
 using RuInTech_TEST.Contract.Models.Assets.Monetary;
@@ -7,8 +8,10 @@ using RuInTech_TEST.Contract.Models.Enums;
 using RuInTech_TEST.Contract.Models.Organization;
 using RuInTech_TEST.Contract.Models.RawMaterial;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RuInTech_TEST.UI
@@ -19,7 +22,16 @@ namespace RuInTech_TEST.UI
     /// </summary>
     internal class AssetEditForm : Form
     {
+        private readonly IBankInfoGetterService _bankInfoGetterService;
+
+        public AssetEditForm(IBankInfoGetterService bankInfoGetterService)
+        {
+            _bankInfoGetterService = bankInfoGetterService;
+        }
+
         private Asset _existingAsset;
+
+        private IReadOnlyList<Bank> _banks = Array.Empty<Bank>();
 
         private const int ContentWidth = 580;
         private const int LabelColumnWidth = 210;
@@ -36,7 +48,7 @@ namespace RuInTech_TEST.UI
 
         // Платёжный счёт
         private readonly GroupBox _grpPaymentAccount = new GroupBox { Text = "Банковский счёт" };
-        private readonly TextBox _txtBankName = new TextBox { Width = 260 };
+        private readonly ComboBox _cmbBankName = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 260 };
         private readonly TextBox _txtAccountNumber = new TextBox { Width = 260 };
         // Талон/купон
         private readonly GroupBox _grpCoupon = new GroupBox { Text = "Талон / купон" };
@@ -96,9 +108,9 @@ namespace RuInTech_TEST.UI
         /// </summary>
         public Asset ResultAsset { get; private set; }
 
-        public void Initialize(Asset asset)
+        public async Task Initialize(Asset asset)
         {
-            BuildLayout();
+            await BuildLayout();
             WireEvents();
 
             if (asset != null)
@@ -153,7 +165,7 @@ namespace RuInTech_TEST.UI
             return combo;
         }
 
-        private void BuildLayout()
+        private async Task BuildLayout()
         {
             FormBorderStyle = FormBorderStyle.Sizable;
             StartPosition = FormStartPosition.CenterParent;
@@ -179,6 +191,9 @@ namespace RuInTech_TEST.UI
                 Enum.GetValues(typeof(AssetKind)).Cast<AssetKind>().Select(ct => ct.GetDescription()).ToArray()
             );
 
+            _banks = (await _bankInfoGetterService.GetBankFullInfo()).ToArray();
+            _cmbBankName.Items.AddRange(_banks.Select(b => b.Name).ToArray());
+
             _contentPanel.Controls.Add(LabeledRow("Наименование актива:", _txtName));
             _contentPanel.Controls.Add(LabeledRow("Тип актива:", _cmbType));
 
@@ -191,7 +206,7 @@ namespace RuInTech_TEST.UI
 
             // --- Банковский счёт ---
             var payFlow = CreateGroupContent();
-            payFlow.Controls.Add(LabeledRow("Банк:", _txtBankName));
+            payFlow.Controls.Add(LabeledRow("Банк:", _cmbBankName));
             payFlow.Controls.Add(LabeledRow("Номер счёта:", _txtAccountNumber));
             _grpPaymentAccount.Controls.Add(payFlow);
             SetGroupSize(_grpPaymentAccount, payFlow, rowCount: 2);
@@ -375,7 +390,7 @@ namespace RuInTech_TEST.UI
                     _cmbType.SelectedIndex = GetSelectedIndexByKind(AssetKind.PaymentAccount);
                     _numCost.Value = pa.MonetaryValue.Cost;
                     _cmbCurrency.SelectedItem = pa.MonetaryValue.Currency;
-                    _txtBankName.Text = pa.BankAccount.Bank.Name;
+                    _cmbBankName.Text = pa.BankAccount.Bank.Name;
                     _txtAccountNumber.Text = pa.BankAccount.PersonalAccount;
                     break;
 
@@ -462,8 +477,7 @@ namespace RuInTech_TEST.UI
                             PersonalAccount = _txtAccountNumber.Text.Trim(),
                             Bank = new Bank
                             {
-                                Id = (_existingAsset as PaymentAccount)?.BankAccount.Bank.Id ?? 0,
-                                Name = _txtBankName.Text.Trim(),
+                                Id = (_existingAsset as PaymentAccount)?.BankAccount.Bank.Id ?? _banks[_cmbBankName.SelectedIndex].Id,
                             },
                         },
                     };

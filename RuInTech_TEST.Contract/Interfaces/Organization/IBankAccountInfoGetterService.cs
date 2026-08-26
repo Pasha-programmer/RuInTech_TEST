@@ -1,5 +1,4 @@
-﻿using RuInTech_TEST.Contract.Models.Organization;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace RuInTech_TEST.Contract.Interfaces.Organization
 {
@@ -13,5 +12,13 @@ namespace RuInTech_TEST.Contract.Interfaces.Organization
         /// </summary>
         /// <returns>Лицевой счет в банке.</returns>
         Task<string> GetPersonalAccount(long bankAccountId);
+
+        /// <summary>
+        /// Проверить идентификатор лицевого счета в опеределенном банке.
+        /// </summary>
+        /// <param name="personalAccount">Лицевой счет.</param>
+        /// <param name="bankId">Идентификатор банка.</param>
+        /// <returns>Идентификатор лицевого счета.</returns>
+        Task<long?> GetPersonalAccountId(string personalAccount, long bankId);
     }
 }
