@@ -2,9 +2,7 @@
 using RuInTech_TEST.Common.Extensions;
 using RuInTech_TEST.Contract.Interfaces.Assets;
 using RuInTech_TEST.Contract.Models.Assets;
-using RuInTech_TEST.Contract.Models.Assets.Monetary;
-using RuInTech_TEST.Contract.Models.Assets.NonMonetary;
-using RuInTech_TEST.Contract.Models.Enums;
+using RuInTech_TEST.UI.Pages;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -222,6 +220,23 @@ namespace RuInTech_TEST.UI
         }
 
         /// <summary>
+        /// Обработчик для открытия окна банков.
+        /// </summary>
+        private void menuBanks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var banksForm = _serviceProvider.GetRequiredService<BanksForm>();
+                banksForm.ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Не удалось открыть окно банков: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// Получить редактор для конкретного типа актива.
         /// </summary>
         private IAssetsInfoEditor GetEditor(Asset asset)
@@ -236,22 +251,6 @@ namespace RuInTech_TEST.UI
                 var editorType = typeof(IAssetsInfoEditorGeneric<>).MakeGenericType(assetType);
                 var editor = _serviceProvider.GetRequiredService(editorType);
                 return editor as IAssetsInfoEditor;
-
-                //switch (asset.AssetKind)
-                //{
-                //    case AssetKind.Cash:
-                //        return (IAssetsInfoEditorGeneric<Asset>)_serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<CashAsset>>();
-                //    case AssetKind.PaymentAccount:
-                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<PaymentAccount>>() as IAssetsInfoEditorGeneric<Asset>;
-                //    case AssetKind.Coupon:
-                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<Сoupon>>() as IAssetsInfoEditorGeneric<Asset>;
-                //    case AssetKind.RawMaterial:
-                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<RawMaterial>>() as IAssetsInfoEditorGeneric<Asset>;
-                //    case AssetKind.Realty:
-                //        return _serviceProvider.GetRequiredService<IAssetsInfoEditorGeneric<Realty>>() as IAssetsInfoEditorGeneric<Asset>;
-                //    default:
-                //        throw new NotSupportedException($"Тип актива {asset.AssetKind} не поддерживается.");
-                //}
             }
             catch (Exception ex)
             {

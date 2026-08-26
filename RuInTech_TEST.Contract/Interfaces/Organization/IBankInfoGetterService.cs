@@ -1,4 +1,5 @@
 ﻿using RuInTech_TEST.Contract.Models.Organization;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RuInTech_TEST.Contract.Interfaces.Organization
@@ -14,5 +15,11 @@ namespace RuInTech_TEST.Contract.Interfaces.Organization
         /// <param name="bankId">Идентификатор банка.</param>
         /// <returns>Модель информации о банке.</returns>
         Task<Bank> GetBankFullInfo(long bankId);
+
+        /// <summary>
+        /// Получить полную информацию о банках.
+        /// </summary>
+        /// <returns>Полная информация о банках</returns>
+        Task<IReadOnlyCollection<Bank>> GetBankFullInfo();
     }
 }

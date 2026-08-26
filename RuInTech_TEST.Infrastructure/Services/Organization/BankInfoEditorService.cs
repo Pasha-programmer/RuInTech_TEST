@@ -1,11 +1,9 @@
 ﻿using RuInTech_TEST.Contract.Interfaces.Organization;
 using RuInTech_TEST.Contract.Models.Organization;
 using RuInTech_TEST.Database;
-using RuInTech_TEST.Infrastructure.Dtos.Organization;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace RuInTech_TEST.Infrastructure.Services.Organization
 {

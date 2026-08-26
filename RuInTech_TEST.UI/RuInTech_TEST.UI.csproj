@@ -61,8 +61,17 @@
       <DependentUpon>Assets.cs</DependentUpon>
     </Compile>
     <Compile Include="Dependencyinjection.cs" />
+    <Compile Include="Modals\BankEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modals\AssetEditForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\Banks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\Banks.Designer.cs">
+      <DependentUpon>Banks.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
@@ -70,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets.resx">
       <DependentUpon>Assets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modals\BankEditForm.resx">
+      <DependentUpon>BankEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modals\AssetEditForm.resx">
       <DependentUpon>AssetEditForm.cs</DependentUpon>

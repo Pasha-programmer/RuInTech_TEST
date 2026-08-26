@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RuInTech_TEST.UI.Pages;
 
 namespace RuInTech_TEST.UI
 {
@@ -14,6 +15,8 @@ namespace RuInTech_TEST.UI
         {
             services.AddTransient<AssetsForm>();
             services.AddTransient<AssetEditForm>();
+            services.AddTransient<BanksForm>();
+            services.AddTransient<BankEditForm>();
 
             return services;
         }

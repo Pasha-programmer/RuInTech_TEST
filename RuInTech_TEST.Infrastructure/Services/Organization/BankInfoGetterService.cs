@@ -1,6 +1,7 @@
 ﻿using RuInTech_TEST.Contract.Interfaces.Organization;
 using RuInTech_TEST.Contract.Models.Organization;
 using RuInTech_TEST.Database;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -36,6 +37,23 @@ namespace RuInTech_TEST.Infrastructure.Services.Organization
                                 };
 
                 return await bankQuery.FirstOrDefaultAsync();
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IReadOnlyCollection<Bank>> GetBankFullInfo()
+        {
+            using (var context = _dbContextFactory.Create())
+            {
+                var bankQuery = from b in context.Banks
+
+                                select new Bank
+                                {
+                                    Id = b.Id,
+                                    Name = b.Name,
+                                };
+
+                return await bankQuery.ToArrayAsync();
             }
         }
     }
